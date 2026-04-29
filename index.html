@@ -1,7 +1,5663 @@
-<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>bearearn</title></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FREE DOGS PAY</title>
+
+  <style>
+    /* === ALL ORIGINAL STYLES (UNCHANGED) === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .miniapp-box {
+      width: 100%;
+      max-width: 390px;
+      height: 680px;
+      background: linear-gradient(180deg, #111113, #18181a);
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      border: 1px solid #2c2c2e;
+    }
+
+    .loading-screen {
+      position: absolute;
+      inset: 0;
+      background: #0f0f12;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .loading-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-ring {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .loader-ring::before {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 4px solid rgba(255, 204, 0, 0.12);
+    }
+
+    .loader-ring::after {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top: 4px solid #d4af00;
+      border-right: 4px solid #d4af00;
+      animation: spin 2s linear infinite;
+    }
+
+    .inner-ring {
+      position: absolute;
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      border: 2px solid #ff3b30;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #050505;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4) inset;
+    }
+
+    .logo-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .loading-title {
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    .progress-bar-wrap {
+      width: 220px;
+      height: 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      border-radius: 20px;
+      animation: loadBar 3s ease forwards;
+    }
+
+    .loading-text {
+      color: rgba(255,255,255,0.22);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes loadBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    .app-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .miniapp-content {
+      color: #fff;
+      padding: 24px 20px 90px;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .miniapp-content h2 {
+      font-size: 26px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .miniapp-content p {
+      color: #b4b4b8;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .content-card {
+      margin-top: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 78px;
+      background: rgba(34, 34, 36, 0.98);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.25);
+      z-index: 10;
+    }
+
+    .nav-item {
+      position: relative;
+      flex: 1;
+      text-align: center;
+      color: #8e93a6;
+      text-decoration: none;
+      font-size: 13px;
+      padding: 10px 0 8px;
+      transition: all 0.3s ease;
+      background: transparent !important;
+    }
+
+    .nav-item svg {
+      display: block;
+      margin: 0 auto 4px;
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .nav-item span {
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    .nav-item:hover,
+    .nav-item:focus,
+    .nav-item:active {
+      color: #aeb4c8;
+      background: transparent !important;
+      outline: none;
+      box-shadow: none;
+    }
+
+    .nav-item:hover svg {
+      transform: translateY(-2px) scale(1.05);
+      filter: drop-shadow(0 0 4px rgba(174, 180, 200, 0.15));
+    }
+
+    .nav-item.active {
+      color: #f6c400;
+    }
+
+    .nav-item.active svg {
+      transform: translateY(-4px) scale(1.1);
+      filter: drop-shadow(0 0 6px rgba(246, 196, 0, 0.5));
+    }
+
+    .nav-item.active span {
+      font-weight: bold;
+    }
+
+    .nav-item.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      border-radius: 10px;
+      background: #f6c400;
+      box-shadow: 0 0 12px rgba(246, 196, 0, 0.8);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .earn-list {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .earn-item {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      background: #232326;
+      border-radius: 20px;
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .earn-item:hover {
+      background: #29292d;
+    }
+
+    .earn-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .earn-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #313137;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .earn-text strong {
+      display: block;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .earn-text span {
+      display: block;
+      font-size: 13px;
+      color: #a8acba;
+    }
+
+    .earn-arrow {
+      color: #9ca0af;
+      font-size: 28px;
+      line-height: 1;
+      margin-left: 10px;
+    }
+
+    .earn-guide {
+      margin-top: 18px;
+      background: #232326;
+      border-radius: 20px;
+      padding: 18px 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .earn-guide-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .earn-guide-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .earn-guide-list li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 12px;
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .earn-guide-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .earn-guide-list li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: #f6c400;
+      border-radius: 50%;
+      position: absolute;
+      left: 0;
+      top: 8px;
+    }
+
+    .sub-page-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      border: none;
+      background: #2a2a2e;
+      color: #fff;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .sub-page-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .top-user-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .top-user-mini-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #f6c400;
+      background: #232326;
+      flex-shrink: 0;
+    }
+
+    .top-user-mini-info {
+      min-width: 0;
+    }
+
+    .top-user-mini-name {
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-user-mini-welcome {
+      color: #b4b4b8;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .notify-btn {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border: none;
+      border-radius: 14px;
+      background: #232326;
+      color: #fff;
+      cursor: pointer;
+      font-size: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .notify-badge {
+      position: absolute;
+      top: 6px;
+      right: 7px;
+      width: 8px;
+      height: 8px;
+      background: #f6c400;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(246,196,0,0.7);
+    }
+
+    .home-balance-card {
+      margin-top: 16px;
+      background: #232326;
+      border-radius: 24px;
+      padding: 26px 20px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .home-balance-logo {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 14px;
+      border: 2px solid #ff3b30;
+      background: #050505;
+    }
+
+    .home-balance-label {
+      color: #9fa4b5;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .home-balance-value {
+      color: #f6c400;
+      font-size: 52px;
+      font-weight: bold;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .home-balance-unit {
+      color: #f6c400;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .home-stats-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .home-stat-card {
+      background: #232326;
+      border-radius: 20px;
+      padding: 18px 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      min-height: 110px;
+    }
+
+    .home-stat-title {
+      color: #9fa4b5;
+      font-size: 14px;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .home-stat-value {
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .app-stats-card {
+      margin-top: 18px;
+      background: #232326;
+      border-radius: 20px;
+      padding: 18px 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .app-stats-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .app-stats-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      gap: 12px;
+    }
+
+    .app-stats-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .app-stats-row:first-of-type {
+      padding-top: 0;
+    }
+
+    .app-stat-left {
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .app-stat-right {
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .home-guide-card {
+      margin-top: 18px;
+      background: #232326;
+      border-radius: 20px;
+      padding: 18px 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .home-guide-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .home-guide-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .home-guide-list li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 12px;
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .home-guide-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .home-guide-list li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: #f6c400;
+      border-radius: 50%;
+      position: absolute;
+      left: 0;
+      top: 8px;
+    }
+
+    .daily-bonus-card {
+      margin-top: 10px;
+      background: #232326;
+      border-radius: 24px;
+      padding: 26px 18px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .daily-bonus-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .daily-bonus-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .daily-bonus-subtitle {
+      color: #a8acba;
+      font-size: 14px;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .daily-bonus-time {
+      color: #a8acba;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .claim-btn {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      border-radius: 18px;
+      padding: 18px 14px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #111;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      transition: all 0.25s ease;
+    }
+
+    .claim-btn:hover {
+      transform: scale(1.01);
+    }
+
+    .claim-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+      transform: none;
+    }
+
+    .daily-status {
+      margin-top: 14px;
+      color: #f6c400;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .spin-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      margin-top: 8px;
+    }
+
+    .wheel-area {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      max-width: 100%;
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 0;
+      border-bottom: 22px solid #ffffff;
+      z-index: 4;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.45));
+    }
+
+    .spin-wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 6px solid #f0b000;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+      position: relative;
+      overflow: hidden;
+      transition: transform 5s cubic-bezier(0.17, 0.67, 0.14, 1);
+      background:
+        conic-gradient(
+          #47c98a 0deg 45deg,
+          #ffd321 45deg 90deg,
+          #ffae00 90deg 135deg,
+          #47c98a 135deg 180deg,
+          #ffd321 180deg 225deg,
+          #ffae00 225deg 270deg,
+          #ffd321 270deg 315deg,
+          #ffae00 315deg 360deg
+        );
+    }
+
+    .wheel-center {
+      position: absolute;
+      inset: 50%;
+      transform: translate(-50%, -50%);
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: #1a1a1d;
+      border: 6px solid #f0b000;
+      z-index: 3;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    }
+
+    .wheel-label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: 0 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #111;
+      z-index: 2;
+    }
+
+    .spin-dark-btn {
+      width: 100%;
+      max-width: 280px;
+      border: none;
+      border-radius: 18px;
+      background: #2b2b31;
+      color: #e8e8e8;
+      padding: 18px 16px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .spin-yellow-btn {
+      width: 100%;
+      max-width: 220px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      color: #111;
+      padding: 18px 16px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .spin-yellow-btn:disabled,
+    .spin-dark-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .spin-status {
+      color: #f6c400;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    .spin-popup-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .spin-popup-card {
+      width: 100%;
+      max-width: 340px;
+      background: #232326;
+      border-radius: 26px;
+      padding: 28px 20px 24px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(246,196,0,0.18);
+      border: 1px solid rgba(255,204,0,0.12);
+    }
+
+    .spin-popup-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .spin-popup-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .spin-popup-reward {
+      font-size: 26px;
+      font-weight: bold;
+      color: #f6c400;
+      margin-bottom: 10px;
+    }
+
+    .spin-popup-text {
+      font-size: 14px;
+      color: #a8acba;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .spin-popup-claim {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      border-radius: 18px;
+      padding: 18px 14px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #111;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      margin-bottom: 14px;
+    }
+
+    .spin-popup-skip {
+      border: none;
+      background: transparent;
+      color: #8e93a6;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .hidden-spin-btn {
+      display: none !important;
+    }
+
+    .tasks-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .task-card {
+      width: calc(50% - 7px);
+      min-height: 150px;
+      background: #232326;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .task-card.expanded {
+      width: calc(50% - 7px);
+    }
+
+    .task-top {
+      padding: 16px 14px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .task-top-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: #313137;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 12px;
+    }
+
+    .task-title {
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.45;
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+
+    .task-reward {
+      color: #f6c400;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .task-progress {
+      color: #9fa4b5;
+      font-size: 12px;
+    }
+
+    .task-expand-content {
+      display: none;
+      padding: 0 14px 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .task-card.expanded .task-expand-content {
+      display: block;
+    }
+
+    .task-desc {
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 12px 0 14px;
+    }
+
+    .task-action-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .task-start-btn {
+      background: #2e2e34;
+      color: #fff;
+    }
+
+    .task-upload-btn {
+      background: #2e2e34;
+      color: #fff;
+    }
+
+    .task-file-input {
+      display: none;
+    }
+
+    .task-upload-status {
+      margin-top: 10px;
+      color: #f6c400;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .task-complete-btn {
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      color: #111;
+    }
+
+    .notify-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .notify-item {
+      background: #232326;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .notify-item-title {
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .notify-item-text {
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .notify-item-time {
+      color: #8e93a6;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .redeem-card {
+      background: #232326;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 22px 16px;
+      margin-top: 6px;
+    }
+
+    .redeem-icon {
+      font-size: 38px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .redeem-title {
+      text-align: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .redeem-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .redeem-input {
+      flex: 1;
+      background: #2d2d33;
+      border: none;
+      border-radius: 14px;
+      padding: 16px 14px;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .redeem-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 16px 18px;
+      background: #555;
+      color: #111;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: not-allowed;
+      min-width: 88px;
+      transition: 0.3s ease;
+    }
+
+    .redeem-btn.active {
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      cursor: pointer;
+    }
+
+    .redeem-channel-box {
+      background: #2a2a2f;
+      border-radius: 14px;
+      padding: 14px 14px;
+      margin-bottom: 18px;
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .redeem-channel-box a {
+      color: #f6c400;
+      text-decoration: underline;
+    }
+
+    .redeem-history-title {
+      color: #9fa4b5;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .redeem-empty-history {
+      color: #7f8494;
+      text-align: center;
+      font-size: 14px;
+      padding: 10px 0 20px;
+    }
+
+    .redeem-status {
+      margin-top: 12px;
+      color: #f6c400;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .custom-popup-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      z-index: 130;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .custom-popup-card {
+      width: 100%;
+      max-width: 320px;
+      background: #232326;
+      border-radius: 22px;
+      padding: 24px 18px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .custom-popup-title {
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .custom-popup-text {
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .custom-popup-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      color: #111;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      min-width: 120px;
+    }
+
+    .confirm-popup-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .confirm-cancel-btn,
+    .confirm-ok-btn {
+      flex: 1;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .confirm-cancel-btn {
+      background: #2d2d33;
+      color: #fff;
+    }
+
+    .confirm-ok-btn {
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      color: #111;
+    }
+
+    .watchads-panel {
+      margin-top: 6px;
+      background: #232326;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 26px 16px 18px;
+      text-align: center;
+    }
+
+    .watchads-big-icon {
+      font-size: 42px;
+      margin-bottom: 14px;
+    }
+
+    .watchads-reward-title {
+      color: #ffc61a;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .watchads-reward-sub {
+      color: #9fa4b5;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .watchads-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .watchads-stat-box {
+      background: #2b2b31;
+      border-radius: 20px;
+      padding: 18px 12px 16px;
+    }
+
+    .watchads-stat-value {
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .watchads-stat-label {
+      color: #9fa4b5;
+      font-size: 13px;
+    }
+
+    .watchads-main-btn {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      border-radius: 20px;
+      padding: 20px 16px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #111;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      transition: all 0.25s ease;
+    }
+
+    .watchads-main-btn:hover {
+      transform: scale(1.01);
+    }
+
+    .watchads-main-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.75;
+      transform: none;
+    }
+
+    .watchads-status {
+      margin-top: 14px;
+      color: #f6c400;
+      font-size: 14px;
+      font-weight: bold;
+      min-height: 20px;
+    }
+
+    .refer-panel {
+      margin-top: 6px;
+      background: #232326;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 26px 16px 18px;
+      text-align: center;
+    }
+
+    .refer-big-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .refer-reward-title {
+      color: #ffc61a;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .refer-reward-sub {
+      color: #9fa4b5;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .refer-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .refer-stat-box {
+      background: #2b2b31;
+      border-radius: 20px;
+      padding: 18px 12px 16px;
+      text-align: center;
+    }
+
+    .refer-stat-value {
+      color: #ffc61a;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .refer-stat-label {
+      color: #9fa4b5;
+      font-size: 13px;
+    }
+
+    .refer-link-card {
+      margin-top: 16px;
+      background: #232326;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 18px 16px;
+    }
+
+    .refer-link-title {
+      color: #b4b4b8;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .refer-link-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .refer-link-input {
+      flex: 1;
+      background: #2d2d33;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 14px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .refer-copy-btn {
+      width: 52px;
+      min-width: 52px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      color: #111;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .refer-share-btn {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      background: #2d2d33;
+      color: #fff;
+      padding: 16px 14px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .refer-history-card {
+      margin-top: 18px;
+      background: #232326;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 18px 16px 24px;
+    }
+
+    .refer-history-title {
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .refer-empty-history {
+      color: #8e93a6;
+      font-size: 14px;
+      text-align: center;
+      padding: 14px 0 6px;
+    }
+
+    .refer-claim-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .refer-claim-input {
+      flex: 1;
+      background: #2d2d33;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 14px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .refer-claim-btn {
+      border: none;
+      border-radius: 16px;
+      padding: 16px 18px;
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      color: #111;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      min-width: 88px;
+    }
+
+    .withdraw-screen {
+      position: relative;
+      min-height: 100%;
+      margin: -24px -20px -90px;
+      padding: 24px 20px 110px;
+      background:
+        linear-gradient(rgba(10,12,16,0.60), rgba(10,12,16,0.78)),
+        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+    }
+
+    .withdraw-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .withdraw-title-icon {
+      font-size: 24px;
+    }
+
+    .withdraw-main-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .withdraw-closed-box {
+      background: rgba(50, 34, 37, 0.72);
+      border: 1px solid rgba(255, 59, 48, 0.38);
+      border-radius: 24px;
+      padding: 22px 16px;
+      text-align: center;
+      margin-bottom: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .withdraw-closed-title {
+      color: #ff3b30;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .withdraw-open-box {
+      background: rgba(22, 58, 34, 0.78);
+      border: 1px solid rgba(34, 197, 94, 0.42);
+      border-radius: 24px;
+      padding: 22px 16px;
+      text-align: center;
+      margin-bottom: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .withdraw-open-title {
+      color: #22c55e;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .withdraw-closed-text {
+      color: rgba(255,255,255,0.65);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .withdraw-balance-box {
+      background: rgba(30, 30, 33, 0.94);
+      border-radius: 28px;
+      padding: 26px 16px 18px;
+      text-align: center;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    }
+
+    .withdraw-balance-label {
+      color: #9fa4b5;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .withdraw-balance-value {
+      color: #ffcc00;
+      font-size: 58px;
+      font-weight: bold;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .withdraw-balance-unit {
+      color: #ffcc00;
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .withdraw-meta-row {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    .withdraw-meta-pill {
+      flex: 1;
+      background: #2e313a;
+      border-radius: 16px;
+      padding: 12px 10px;
+      color: #aeb4c8;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .withdraw-meta-pill strong {
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .withdraw-req-box {
+      background: rgba(30, 30, 33, 0.94);
+      border-radius: 24px;
+      padding: 20px 16px 16px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      margin-bottom: 18px;
+    }
+
+    .withdraw-req-title {
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .withdraw-req-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .withdraw-req-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .withdraw-req-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .withdraw-req-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .withdraw-req-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .withdraw-req-text {
+      color: #ff3b30;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .withdraw-req-text.done {
+      color: #22c55e;
+    }
+
+    .withdraw-req-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .withdraw-req-count {
+      color: #ff4d4d;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .withdraw-req-count.done {
+      color: #22c55e;
+    }
+
+    .withdraw-req-mark {
+      color: #ff4d4d;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .withdraw-req-mark.done {
+      color: #22c55e;
+    }
+
+    .withdraw-wallet-box {
+      background: rgba(30, 30, 33, 0.94);
+      border-radius: 24px;
+      padding: 18px 16px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      margin-bottom: 18px;
+    }
+
+    .withdraw-wallet-title {
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .withdraw-wallet-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .withdraw-wallet-input {
+      flex: 1;
+      background: #2d2d33;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 14px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .withdraw-wallet-input::placeholder {
+      color: #8f97aa;
+    }
+
+    .withdraw-wallet-input.readonly {
+      opacity: 0.95;
+      cursor: default;
+    }
+
+    .withdraw-save-btn {
+      border: none;
+      border-radius: 16px;
+      padding: 16px 20px;
+      background: #9b7a1f;
+      color: #111;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      min-width: 82px;
+      transition: 0.25s ease;
+    }
+
+    .withdraw-save-btn.active {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    .withdraw-wallet-edit-btn {
+      width: 100%;
+      margin-top: 12px;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 12px;
+      background: #2d2d33;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .withdraw-action-box {
+      background: rgba(30, 30, 33, 0.94);
+      border-radius: 24px;
+      padding: 20px 16px 18px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      margin-bottom: 18px;
+    }
+
+    .withdraw-action-title {
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .withdraw-amount-input {
+      width: 100%;
+      background: #2d2d33;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 14px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      margin-bottom: 14px;
+    }
+
+    .withdraw-amount-input::placeholder {
+      color: #8f97aa;
+    }
+
+    .withdraw-main-btn {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      background: #8a6a18;
+      color: #1d1d1d;
+      padding: 18px 14px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 14px;
+    }
+
+    .withdraw-main-btn.enabled {
+      background: linear-gradient(90deg, #ffcc00, #f59e0b);
+      color: #111;
+    }
+
+    .withdraw-warning {
+      color: #ff3b30;
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .withdraw-warning.success {
+      color: #22c55e;
+    }
+
+    .withdraw-warning:last-child {
+      margin-bottom: 0;
+    }
+
+    .withdraw-channel-btn {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      background: rgba(45, 45, 51, 0.96);
+      color: #d6d6d8;
+      padding: 18px 14px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      margin-bottom: 18px;
+    }
+
+    .withdraw-history-box {
+      background: rgba(30, 30, 33, 0.94);
+      border-radius: 24px;
+      padding: 18px 16px 24px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      margin-bottom: 18px;
+    }
+
+    .withdraw-history-title {
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .withdraw-history-empty {
+      color: #8f97aa;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .withdraw-guide-box {
+      background: rgba(30, 30, 33, 0.94);
+      border-radius: 24px;
+      padding: 18px 16px 18px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    }
+
+    .withdraw-guide-title {
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .withdraw-guide-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .withdraw-guide-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 12px;
+      color: #a8acba;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .withdraw-guide-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .withdraw-guide-list li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: #ffcc00;
+      border-radius: 50%;
+      position: absolute;
+      left: 0;
+      top: 7px;
+    }
+
+    /* === WITHDRAW HISTORY ROW UI === */
+    .withdraw-history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .withdraw-history-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(15, 15, 18, 0.9);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .withdraw-history-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .withdraw-history-amount {
+      color: #f6c400;
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .withdraw-history-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 12px;
+      color: #a8acba;
+    }
+
+    .withdraw-history-address {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .withdraw-history-dot {
+      opacity: 0.7;
+    }
+
+    .withdraw-history-time {
+      opacity: 0.9;
+    }
+
+    .withdraw-history-status-pill {
+      min-width: 70px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid;
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    .withdraw-history-status-pending {
+      border-color: #facc15;
+      color: #facc15;
+      background: rgba(23, 23, 16, 0.95);
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
+    }
+
+    .withdraw-history-status-paid {
+      border-color: #22c55e;
+      color: #22c55e;
+      background: rgba(10, 28, 18, 0.95);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+
+    .withdraw-history-status-rejected {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: rgba(39, 12, 12, 0.95);
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.45);
+    }
+
+    /* === NEW CRASH GAME STYLES === */
+    .crash-wrap {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .crash-history-strip {
+      margin-top: 0;
+      padding: 12px 12px 10px;
+    }
+
+    .crash-history-bars {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      min-height: 24px;
+    }
+
+    .crash-history-item {
+      flex: 0 0 auto;
+    }
+
+    .crash-history-bar {
+      display: none;
+    }
+
+    .crash-history-label {
+      padding: 3px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.7);
+      white-space: nowrap;
+    }
+
+    .crash-graph-box {
+      position: relative;
+      height: 190px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top, rgba(250,204,21,0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(59,130,246,0.25), transparent 60%),
+        #11131a;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .crash-graph-box::before {
+      content: "";
+      position: absolute;
+      inset: 16px 18px 18px 18px;
+      background-image:
+        linear-gradient(to right, rgba(148,163,184,0.16) 1px, transparent 1px),
+        linear-gradient(to top, rgba(148,163,184,0.16) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.9;
+    }
+
+    .crash-plane {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background: radial-gradient(circle, #fbbf24, #f97316);
+      box-shadow: 0 0 14px rgba(248,250,252,0.9);
+      transform: translate(0,0);
+      z-index: 2;
+    }
+
+    .crash-countdown-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(rgba(15,23,42,0.80), rgba(15,23,42,0.85));
+      z-index: 3;
+    }
+
+    .crash-countdown-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .crash-propeller {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      transform-origin: 50% 50%;
+    }
+
+    .crash-countdown-text {
+      font-size: 14px;
+      color: #e5e7eb;
+      font-weight: bold;
+    }
+
+    .crash-multiplier-box {
+      text-align: center;
+    }
+
+    .crash-multiplier-label {
+      font-size: 13px;
+      color: #9fa4b5;
+      margin-bottom: 4px;
+    }
+
+    .crash-multiplier-value {
+      font-size: 34px;
+      font-weight: bold;
+      color: #f6c400;
+      margin-bottom: 4px;
+    }
+
+    .crash-status-text {
+      font-size: 13px;
+      color: #a8acba;
+      min-height: 18px;
+    }
+
+    .crash-plane-flying {
+      animation: crashPlaneGlow 1.2s ease-in-out infinite alternate;
+    }
+
+    .crash-plane-crashed {
+      animation: crashPlaneCrash 0.7s ease-out forwards;
+      box-shadow: 0 0 18px rgba(239,68,68,0.9);
+      background: radial-gradient(circle, #f97316, #ef4444);
+    }
+
+    @keyframes crashPlaneGlow {
+      from { box-shadow: 0 0 10px rgba(248,250,252,0.6); }
+      to   { box-shadow: 0 0 18px rgba(248,250,252,1); }
+    }
+
+    @keyframes crashPlaneCrash {
+      0%   { transform: translate(0,0) scale(1); opacity: 1; }
+      40%  { transform: translate(8px,-8px) scale(1.08); opacity: 1; }
+      100% { transform: translate(0,24px) scale(0.65); opacity: 0.2; }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+      }
+
+      .miniapp-box {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0;
+      }
+    }
+
+    /* === TASK DROPDOWN UI (collapsed -> expanded) === */
+
+.tasks-grid{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.task-card{
+  width:100% !important;
+  min-height:auto !important;
+  padding:14px !important;
+  border-radius:22px !important;
+  background: radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(255,255,255,0.02) 55%), #141417 !important;
+  border:1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+  overflow:hidden;
+}
+
+/* header row */
+.task-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.task-head-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+  flex:1;
+}
+
+.task-tg-icon{
+  width:46px;
+  height:46px;
+  border-radius:16px;
+  background: rgba(59,130,246,0.16);
+  border: 1px solid rgba(59,130,246,0.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.task-tg-icon svg{
+  width:22px;
+  height:22px;
+  fill:#3b82f6;
+}
+
+.task-head-title{
+  font-size:16px;
+  font-weight:800;
+  color:#fff;
+  line-height:1.2;
+}
+
+.task-reward-pill{
+  flex-shrink:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border-radius:999px;
+  background: rgba(250,204,21,0.12);
+  border:1px solid rgba(250,204,21,0.35);
+  color:#facc15;
+  font-weight:900;
+  font-size:13px;
+}
+
+.task-reward-pill .coin{
+  width:18px;
+  height:18px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(59,130,246,0.18);
+  border: 1px solid rgba(59,130,246,0.30);
+  color:#60a5fa;
+  font-size:12px;
+}
+
+/* start/join button */
+.task-join-btn{
+  width:100%;
+  margin-top:12px;
+  border:none;
+  cursor:pointer;
+  border-radius:18px;
+  padding:16px 14px;
+  font-size:16px;
+  font-weight:900;
+  color:#fff;
+  background: linear-gradient(180deg, #2aa7e9, #1d8fd0);
+  box-shadow: 0 10px 22px rgba(29,143,208,0.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+.task-join-btn:active{ transform:scale(0.99); }
+
+/* dropdown details */
+.task-details{
+  display:none;
+  margin-top:12px;
+  padding-top:12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.task-card.expanded .task-details{
+  display:block;
+  animation: fadeIn 0.25s ease;
+}
+
+.task-meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.task-meta-pill{
+  background:#2b2b31;
+  border: 1px solid rgba(255,255,255,0.06);
+  color:#a8acba;
+  font-size:12px;
+  padding:7px 10px;
+  border-radius:999px;
+}
+
+.task-actions{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.task-actions .task-action-btn{
+  margin-top:0 !important;
+  border-radius:14px;
+  padding:14px 12px;
+  font-size:14px;
+}
+
+.task-actions .task-wide{
+  grid-column: 1 / -1;
+}
+
+.task-upload-status{
+  margin-top:10px;
+  text-align:center;
+}
+
+/* smaller icon inside the blue Start button */
+.task-join-btn svg{
+  width:18px;
+  height:18px;
+  fill:#ffffff;
+  flex-shrink:0;
+}
+
+/* make the blue button content neat */
+.task-join-btn{
+  gap:10px;
+}
+
+/* OPTIONAL: make the left icon a bit smaller too (header icon) */
+.task-tg-icon{
+  width:40px;
+  height:40px;
+  border-radius:14px;
+}
+
+.task-tg-icon svg{
+  width:20px;
+  height:20px;
+}
+  </style>
+</head>
+
 <body>
-  <h1>My site is working</h1>
+  <div class="miniapp-box" id="miniAppBox">
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loader-ring">
+        <div class="inner-ring">
+          <img class="logo-img" src="YOUR_IMAGE_URL_HERE" alt="Logo">
+        </div>
+      </div>
+
+      <div class="loading-title">FREE DOGS PAY</div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-bar"></div>
+      </div>
+
+      <div class="loading-text">Loading your DOGS rewards...</div>
+    </div>
+
+    <!-- App Screen -->
+    <div class="app-screen">
+      <div class="miniapp-content fade-in" id="content-area">
+        <div class="top-actions">
+          <div class="top-user-mini">
+            <img class="top-user-mini-avatar" id="topTgUserPhoto" src="https://ui-avatars.com/api/?name=U&background=232326&color=fff" alt="User" onerror="this.src='https://ui-avatars.com/api/?name=U&background=232326&color=fff'">
+            <div class="top-user-mini-info">
+              <div class="top-user-mini-name" id="topTgUserName">@guest_user</div>
+              <div class="top-user-mini-welcome">Welcome back! 🪶</div>
+            </div>
+          </div>
+          <button class="notify-btn" onclick="openNotificationWindow()">🔔<span class="notify-badge"></span></button>
+        </div>
+
+        <h2>Home</h2>
+
+        <div class="home-balance-card">
+          <img class="home-balance-logo" src="YOUR_IMAGE_URL_HERE" alt="Logo">
+          <div class="home-balance-label">Your Balance</div>
+          <div class="home-balance-value" id="homeBalanceValue">160</div>
+          <div class="home-balance-unit">🐕 DOGS</div>
+        </div>
+
+        <div class="home-stats-grid">
+          <div class="home-stat-card">
+            <div class="home-stat-title">Total Ads Watched</div>
+            <div class="home-stat-value" id="homeAdsWatchedValue">0</div>
+          </div>
+
+          <div class="home-stat-card">
+            <div class="home-stat-title">Total Referrals</div>
+            <div class="home-stat-value" id="homeReferralsValue">0</div>
+          </div>
+
+          <div class="home-stat-card">
+            <div class="home-stat-title">Total Withdrawn Balance</div>
+            <div class="home-stat-value">0</div>
+          </div>
+
+          <div class="home-stat-card">
+            <div class="home-stat-title">Total Tasks Completed</div>
+            <div class="home-stat-value" id="homeTasksCompletedValue">0</div>
+          </div>
+
+          <div class="home-stat-card">
+            <div class="home-stat-title">Total Spinned</div>
+            <div class="home-stat-value" id="homeSpinnedValue">0</div>
+          </div>
+
+          <div class="home-stat-card">
+            <div class="home-stat-title">Total Earned</div>
+            <div class="home-stat-value" id="homeEarnedValue">160</div>
+          </div>
+        </div>
+
+        <div class="app-stats-card">
+          <div class="app-stats-title">📊 App Statistics</div>
+
+          <div class="app-stats-row">
+            <div class="app-stat-left">👤 Total Users</div>
+            <div class="app-stat-right">532</div>
+          </div>
+
+          <div class="app-stats-row">
+            <div class="app-stat-left">💎 Total Payment</div>
+            <div class="app-stat-right">126,550</div>
+          </div>
+
+          <div class="app-stats-row">
+            <div class="app-stat-left">🐕 Total Paid Dogs</div>
+            <div class="app-stat-right">126,550</div>
+          </div>
+
+          <div class="app-stats-row">
+            <div class="app-stat-left">📤 Total Withdraw Dogs</div>
+            <div class="app-stat-right">126,550</div>
+          </div>
+
+          <div class="app-stats-row">
+            <div class="app-stat-left">🏦 All User Balance</div>
+            <div class="app-stat-right">174,220</div>
+          </div>
+        </div>
+
+        <div class="home-guide-card">
+          <div class="home-guide-title">🏠 Home Guide</div>
+          <ul class="home-guide-list">
+            <li>View your current DOGS balance and earning stats.</li>
+            <li>Track your total earned, withdrawn, ads watched, tasks and spins.</li>
+            <li>App statistics show overall platform performance.</li>
+            <li>Go to Earn tab to start earning more DOGS.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="javascript:void(0)" class="nav-item active" onclick="showTab('home', this)">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+            <path d="M3 10.5L12 3l9 7.5"></path>
+            <path d="M5 9.5V20h14V9.5"></path>
+          </svg>
+          <span>Home</span>
+        </a>
+
+        <a href="javascript:void(0)" class="nav-item" onclick="showTab('earn', this)">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+            <path d="M4 16l6-6 4 4 6-8"></path>
+            <path d="M14 6h6v6"></path>
+          </svg>
+          <span>Earn</span>
+        </a>
+
+        <a href="javascript:void(0)" class="nav-item" onclick="showTab('withdraw', this)">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+            <path d="M12 3v12"></path>
+            <path d="M8 11l4 4 4-4"></path>
+            <path d="M4 21h16"></path>
+          </svg>
+          <span>Withdraw</span>
+        </a>
+
+        <a href="javascript:void(0)" class="nav-item" onclick="showTab('profile', this)">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"></path>
+          </svg>
+          <span>Profile</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <script>
+    /* === STATE & CONSTANTS === */
+    let balance = parseInt(localStorage.getItem("dogsBalance")) || 160;
+    let totalEarned = parseInt(localStorage.getItem("dogsTotalEarned")) || 160;
+    let totalSpinned = parseInt(localStorage.getItem("dogsTotalSpinned")) || 0;
+    let totalAdsWatched = parseInt(localStorage.getItem("dogsTotalAdsWatched")) || 0;
+    let totalTasksCompleted = parseInt(localStorage.getItem("dogsTotalTasksCompleted")) || 0;
+    let totalReferrals = parseInt(localStorage.getItem("dogsTotalReferrals")) || 0;
+
+    let dailyBonusAmount = 50;
+    let dailyCooldown = 24 * 60 * 60 * 1000;
+    let dailyRedirectUrl = "https://example.com";
+    let dailyTimerInterval = null;
+
+    let spinRedirectUrl = "https://example.com";
+    let spinUnlockReady = false;
+    let spinInProgress = false;
+    let spinCooldown = false;
+    let spinUnlockTimer = null;
+    let spinCooldownTimer = null;
+    let pendingSpinPrize = 0;
+    let pendingSpinClaimed = false;
+
+    let redeemRedirectUrl = "https://example.com";
+    let redeemCountdownTimer = null;
+    let redeemPendingCode = "";
+
+    let watchAdsRedirectUrl = "https://example.com";
+    let watchAdsReward = 5;
+    let watchAdsHourlyLimit = 100;
+    let watchAdsDailyLimit = 1000;
+    let watchAdsCountdownTimer = null;
+
+    let referralTestMode = true;
+    let referralTestAllowedUsers = ["5834429474", "guest_user"];
+    let taskScreenshotCache = {};
+
+    const wheelValues = [5, 10, 5, 10, 5, 10, 5, 10];
+    const spinCooldownDuration = 2 * 60 * 1000;
+    const withdrawRequiredDailyAds = 10;
+    const withdrawRequiredTasks = 3;
+    const withdrawRequiredReferrals = 2;
+    const referralRewardPerReferral = 200;
+
+    const taskData = [
+      {
+        id: "task1",
+        title: "Watch 10 Ads 🎬",
+        reward: "+100 🐕",
+        progress: "0/10000 completed",
+        desc: "All you need to do is open the mini app, go to the Earn tab and tap on Watch Ads. Then watch 10 video ads and upload a screenshot as proof. That's it! ✅",
+        link: "https://example.com/task1"
+      },
+      {
+        id: "task2",
+        title: "Watch & get reward",
+        reward: "+500 🐕",
+        progress: "7/1000 completed",
+        desc: "Open the reward page, complete the required action, then upload your completion screenshot for review.",
+        link: "https://example.com/task2"
+      },
+      {
+        id: "task3",
+        title: "Subscribe our yt channel",
+        reward: "+100 🐕",
+        progress: "",
+        desc: "Subscribe to our YouTube channel, keep the subscription active, and upload a screenshot as proof.",
+        link: "https://example.com/task3"
+      },
+      {
+        id: "task4",
+        title: "Start bot",
+        reward: "+100 🐕",
+        progress: "",
+        desc: "Start the Telegram bot from the task link and upload the screenshot after starting it successfully.",
+        link: "https://example.com/task4"
+      },
+      {
+        id: "task5",
+        title: "📢 Join Our Telegram Channel",
+        reward: "+50 🐕",
+        progress: "",
+        desc: "Join our official Telegram channel and upload a screenshot showing you joined successfully.",
+        link: "https://example.com/task5"
+      },
+      {
+        id: "task6",
+        title: "🎁 Claim Red Packet & Earn",
+        reward: "+100 🐕",
+        progress: "7/50 completed",
+        desc: "Open the red packet page, claim your reward if available, and upload a screenshot as proof.",
+        link: "https://example.com/task6"
+      },
+      {
+        id: "task7",
+        title: "👑 BYBIT SRILANKA INVITE",
+        reward: "+200 🐕",
+        progress: "15/100 completed",
+        desc: "Join the invite campaign from the link and complete the required action before uploading proof.",
+        link: "https://example.com/task7"
+      },
+      {
+        id: "task8",
+        title: "🔴 Start mini app",
+        reward: "+50 🐕",
+        progress: "",
+        desc: "Launch the mini app using the provided link and upload a screenshot after opening it successfully.",
+        link: "https://example.com/task8"
+      }
+    ];
+
+    /* Crash game state */
+    let crashAnimationId = null;
+    let crashGameActive = false;
+    let crashStartTime = 0;
+    let crashTargetMultiplier = 0;
+    let crashCurrentMultiplier = 1;
+    let crashCountdownTimer = null;
+    let crashHistory = [];
+
+    /* === CRASH BET STATE (NEW) === */
+    let crashCountdownRemaining = 10;
+    let crashRoundId = 0;
+
+    let crashBetAmount = 0;
+    let crashBetActive = false;
+    let crashBetRoundId = 0;
+    let crashBetCashedOut = false;
+
+    /* Propeller animation state */
+    let crashPropellerAnimId = null;
+    let crashPropellerAngle = 0;
+    let crashPropellerLastTs = 0;
+    let crashPropellerStartTs = 0;
+    let crashPropellerDuration = 10000;
+
+    window.addEventListener("load", function() {
+      initTelegramUser();
+      setTimeout(async function() {
+        document.getElementById("loadingScreen").classList.add("hide");
+        await syncReferralDataFromFirebase();
+        renderHomeLiveValues();
+        applyTelegramUserToHome();
+        if (window.saveTelegramUserToFirebase) {
+          window.saveTelegramUserToFirebase();
+        }
+      }, 3000);
+    });
+
+    function initTelegramUser() {
+      let tgUser = {
+        telegramId: "guest_user",
+        username: "@guest_user",
+        rawUsername: "guest_user",
+        first_name: "Guest",
+        last_name: "",
+        photo_url: "https://ui-avatars.com/api/?name=G&background=232326&color=fff"
+      };
+
+      try {
+        if (window.Telegram && window.Telegram.WebApp) {
+          const tg = window.Telegram.WebApp;
+          tg.ready();
+          tg.expand();
+
+          const user = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
+
+          if (user) {
+            let usernameText = "@guest_user";
+            let rawUsername = "guest_user";
+
+            if (user.username && user.username.trim() !== "") {
+              rawUsername = user.username;
+              usernameText = "@" + user.username;
+            } else if (user.first_name) {
+              rawUsername = String(user.id || "user");
+              usernameText = user.first_name;
+            }
+
+            let avatarUrl = "";
+            if (user.photo_url && user.photo_url.trim() !== "") {
+              avatarUrl = user.photo_url;
+            } else if (user.username && user.username.trim() !== "") {
+              avatarUrl = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.username.charAt(0).toUpperCase()) + "&background=232326&color=fff";
+            } else if (user.first_name && user.first_name.trim() !== "") {
+              avatarUrl = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.first_name.charAt(0).toUpperCase()) + "&background=232326&color=fff";
+            } else {
+              avatarUrl = "https://ui-avatars.com/api/?name=U&background=232326&color=fff";
+            }
+
+            tgUser.telegramId = String(user.id || rawUsername);
+            tgUser.username = usernameText;
+            tgUser.rawUsername = rawUsername;
+            tgUser.first_name = user.first_name || "User";
+            tgUser.last_name = user.last_name || "";
+            tgUser.photo_url = avatarUrl;
+          }
+        }
+      } catch (e) {}
+
+      window.currentTelegramUser = tgUser;
+    }
+
+    function toggleTaskDropdown(taskId) {
+  const cards = document.querySelectorAll(".task-card");
+  cards.forEach(function(card) {
+    if (card.id === "task-card-" + taskId) {
+      card.classList.toggle("expanded");
+    } else {
+      card.classList.remove("expanded"); // only one open at a time
+    }
+  });
+}
+
+function openTaskAndExpand(taskId, link) {
+  toggleTaskDropdown(taskId);
+  if (link) window.open(link, "_blank");
+}
+
+    function renderTopButton() {
+      const user = window.currentTelegramUser || {
+        username: "@guest_user",
+        photo_url: "https://ui-avatars.com/api/?name=G&background=232326&color=fff"
+      };
+
+      return `
+        <div class="top-actions">
+          <div class="top-user-mini">
+            <img class="top-user-mini-avatar" id="topTgUserPhoto" src="${user.photo_url}" alt="User" onerror="this.src='https://ui-avatars.com/api/?name=U&background=232326&color=fff'">
+            <div class="top-user-mini-info">
+              <div class="top-user-mini-name" id="topTgUserName">${user.username}</div>
+              <div class="top-user-mini-welcome">Welcome back! 🪶</div>
+            </div>
+          </div>
+          <button class="notify-btn" onclick="openNotificationWindow()">🔔<span class="notify-badge"></span></button>
+        </div>
+      `;
+    }
+
+    window.renderTopButton = renderTopButton;
+    window.escapeHtml = escapeHtml;
+    window.formatDate = formatDate;
+
+    function applyTelegramUserToHome() {
+      const user = window.currentTelegramUser || {
+        username: "@guest_user",
+        photo_url: "https://ui-avatars.com/api/?name=G&background=232326&color=fff"
+      };
+
+      var nameEl = document.getElementById("topTgUserName");
+      var photoEl = document.getElementById("topTgUserPhoto");
+
+      if (nameEl) {
+        nameEl.textContent = user.username;
+      }
+
+      if (photoEl) {
+        photoEl.src = user.photo_url;
+      }
+    }
+
+    function renderHomeLiveValues() {
+      var balanceEl = document.getElementById("homeBalanceValue");
+      var earnedEl = document.getElementById("homeEarnedValue");
+      var spinnedEl = document.getElementById("homeSpinnedValue");
+      var adsEl = document.getElementById("homeAdsWatchedValue");
+      var referralsEl = document.getElementById("homeReferralsValue");
+      var tasksEl = document.getElementById("homeTasksCompletedValue");
+
+      if (balanceEl) balanceEl.textContent = balance;
+      if (earnedEl) earnedEl.textContent = totalEarned;
+      if (spinnedEl) spinnedEl.textContent = totalSpinned;
+      if (adsEl) adsEl.textContent = totalAdsWatched;
+      if (referralsEl) referralsEl.textContent = totalReferrals;
+      if (tasksEl) tasksEl.textContent = totalTasksCompleted;
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return "Unknown time";
+      const d = new Date(dateString);
+      if (isNaN(d.getTime())) return "Unknown time";
+      return d.toLocaleString();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text || "";
+      return div.innerHTML;
+    }
+
+    function getUserReferralCode() {
+      const user = window.currentTelegramUser || {};
+      return String(user.telegramId || "guest_user");
+    }
+
+    function isReferralTestUser() {
+      const user = window.currentTelegramUser || {};
+      const userId = String(user.telegramId || "");
+      return referralTestMode && referralTestAllowedUsers.includes(userId);
+    }
+
+    async function syncReferralDataFromFirebase() {
+      if (!window.getUserReferralDataFromFirebase) return;
+
+      try {
+        const result = await window.getUserReferralDataFromFirebase();
+        if (!result) return;
+
+        const newReferralCount = Number(result.referrals || 0);
+        const oldReferralCount = parseInt(localStorage.getItem("dogsTotalReferrals")) || 0;
+
+        if (newReferralCount > oldReferralCount) {
+          const diff = newReferralCount - oldReferralCount;
+          const reward = diff * referralRewardPerReferral;
+          balance += reward;
+          totalEarned += reward;
+
+          localStorage.setItem("dogsBalance", balance.toString());
+          localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+        }
+
+        totalReferrals = newReferralCount;
+        localStorage.setItem("dogsTotalReferrals", totalReferrals.toString());
+
+        if (typeof result.balance === "number" && result.balance >= balance) {
+          balance = result.balance;
+          localStorage.setItem("dogsBalance", balance.toString());
+        }
+
+        renderHomeLiveValues();
+      } catch (e) {}
+    }
+
+    function getSriLankaHour() {
+      const now = new Date();
+      const sriHour = parseInt(
+        now.toLocaleString("en-US", {
+          timeZone: "Asia/Colombo",
+          hour: "2-digit",
+          hour12: false
+        }),
+        10
+      );
+      return sriHour;
+    }
+
+    function isWithdrawOpenNow() {
+      const hour = getSriLankaHour();
+      return hour >= 8 && hour < 22;
+    }
+
+    function getTodaySriLankaKey() {
+      return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Colombo" });
+    }
+
+    function getDailyWatchAdsCountForWithdraw() {
+      const savedDate = localStorage.getItem("dogsDailyWatchDate") || "";
+      const todayDate = getTodaySriLankaKey();
+      if (savedDate !== todayDate) {
+        localStorage.setItem("dogsDailyWatchDate", todayDate);
+        localStorage.setItem("dogsDailyWatchCount", "0");
+        return 0;
+      }
+      return parseInt(localStorage.getItem("dogsDailyWatchCount")) || 0;
+    }
+
+    function incrementDailyWatchAdsCountForWithdraw() {
+      const todayDate = getTodaySriLankaKey();
+      const savedDate = localStorage.getItem("dogsDailyWatchDate") || "";
+      let count = 0;
+
+      if (savedDate !== todayDate) {
+        count = 0;
+      } else {
+        count = parseInt(localStorage.getItem("dogsDailyWatchCount")) || 0;
+      }
+
+      count += 1;
+      localStorage.setItem("dogsDailyWatchDate", todayDate);
+      localStorage.setItem("dogsDailyWatchCount", count.toString());
+      return count;
+    }
+
+    function areWithdrawRequirementsCompleted() {
+      const dailyAdsDone = getDailyWatchAdsCountForWithdraw() >= withdrawRequiredDailyAds;
+      const tasksDone = totalTasksCompleted >= withdrawRequiredTasks;
+      const referralsDone = totalReferrals >= withdrawRequiredReferrals;
+      return dailyAdsDone && tasksDone && referralsDone;
+    }
+
+    function getWithdrawStatusBoxHtml() {
+      if (isWithdrawOpenNow()) {
+        return `
+          <div class="withdraw-open-box">
+            <div class="withdraw-open-title">✅ Withdraw Open</div>
+            <div class="withdraw-closed-text">Withdrawals are currently open until 22:00 PM (Sri Lanka Time).</div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="withdraw-closed-box">
+          <div class="withdraw-closed-title">⏰ Withdraw Closed</div>
+          <div class="withdraw-closed-text">Withdrawals are open from 8:00 AM to 22:00 PM (Sri Lanka Time).</div>
+        </div>
+      `;
+    }
+
+    function getWithdrawRequirementsHtml() {
+      const dailyAdsCount = getDailyWatchAdsCountForWithdraw();
+      const tasksCount = totalTasksCompleted;
+      const referralsCount = totalReferrals;
+
+      const dailyDone = dailyAdsCount >= withdrawRequiredDailyAds;
+      const tasksDone = tasksCount >= withdrawRequiredTasks;
+      const referralsDone = referralsCount >= withdrawRequiredReferrals;
+
+      return `
+        <div class="withdraw-req-box">
+          <div class="withdraw-req-title">⚠️ Withdraw Requirements</div>
+
+          <div class="withdraw-req-list">
+            <div class="withdraw-req-item">
+              <div class="withdraw-req-left">
+                <div class="withdraw-req-icon">📺</div>
+                <div class="withdraw-req-text ${dailyDone ? 'done' : ''}">Daily Ads Watched (Watch Tab only)</div>
+              </div>
+              <div class="withdraw-req-right">
+                <div class="withdraw-req-count ${dailyDone ? 'done' : ''}">${dailyAdsCount}/${withdrawRequiredDailyAds}</div>
+                <div class="withdraw-req-mark ${dailyDone ? 'done' : ''}">${dailyDone ? '✓' : '✕'}</div>
+              </div>
+            </div>
+
+            <div class="withdraw-req-item">
+              <div class="withdraw-req-left">
+                <div class="withdraw-req-icon">✅</div>
+                <div class="withdraw-req-text ${tasksDone ? 'done' : ''}">Total Tasks Completed</div>
+              </div>
+              <div class="withdraw-req-right">
+                <div class="withdraw-req-count ${tasksDone ? 'done' : ''}">${tasksCount}/${withdrawRequiredTasks}</div>
+                <div class="withdraw-req-mark ${tasksDone ? 'done' : ''}">${tasksDone ? '✓' : '✕'}</div>
+              </div>
+            </div>
+
+            <div class="withdraw-req-item">
+              <div class="withdraw-req-left">
+                <div class="withdraw-req-icon">👥</div>
+                <div class="withdraw-req-text ${referralsDone ? 'done' : ''}">Total Referrals</div>
+              </div>
+              <div class="withdraw-req-right">
+                <div class="withdraw-req-count ${referralsDone ? 'done' : ''}">${referralsCount}/${withdrawRequiredReferrals}</div>
+                <div class="withdraw-req-mark ${referralsDone ? 'done' : ''}">${referralsDone ? '✓' : '✕'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getWithdrawWalletHtml() {
+      const savedWallet = (localStorage.getItem("tonWalletAddress") || "").trim();
+      const editMode = localStorage.getItem("tonWalletEditMode") === "1" || savedWallet === "";
+
+      if (editMode) {
+        return `
+          <div class="withdraw-wallet-box">
+            <div class="withdraw-wallet-title">💎 TON Wallet Address</div>
+            <div class="withdraw-wallet-row">
+              <input type="text" class="withdraw-wallet-input" id="withdrawWalletInput" placeholder="Enter TON wallet address..." value="${escapeHtml(savedWallet)}" oninput="toggleWithdrawSaveButton()">
+              <button class="withdraw-save-btn" id="withdrawSaveBtn" onclick="saveWithdrawWallet()">Save</button>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="withdraw-wallet-box">
+          <div class="withdraw-wallet-title">💎 TON Wallet Address</div>
+          <div class="withdraw-wallet-row">
+            <input type="text" class="withdraw-wallet-input readonly" id="withdrawWalletReadonly" value="${escapeHtml(savedWallet)}" readonly>
+          </div>
+          <button class="withdraw-wallet-edit-btn" onclick="editWithdrawWallet()">Edit Address</button>
+        </div>
+      `;
+    }
+
+    function getWithdrawActionBoxHtml() {
+      const requirementsDone = areWithdrawRequirementsCompleted();
+      const walletSaved = (localStorage.getItem("tonWalletAddress") || "").trim() !== "";
+      const enoughBalance = balance >= 1500;
+      const canWithdraw = requirementsDone && walletSaved && enoughBalance;
+
+      return `
+        <div class="withdraw-action-box">
+          <div class="withdraw-action-title">Withdraw Amount</div>
+          <input type="text" class="withdraw-amount-input" id="withdrawAmountInput" placeholder="1500 - 2500 Dogs">
+          <button class="withdraw-main-btn ${canWithdraw ? 'enabled' : ''}" onclick="withdrawDogsNow()">📤 Withdraw</button>
+          <div class="withdraw-warning ${walletSaved ? 'success' : ''}">${walletSaved ? '✓ Wallet address saved' : '⚠️ Save wallet address first'}</div>
+          <div class="withdraw-warning ${requirementsDone ? 'success' : ''}">${requirementsDone ? '✓ All requirements completed' : '⚠️ Complete all requirements above to withdraw'}</div>
+          <div class="withdraw-warning ${enoughBalance ? 'success' : ''}">${enoughBalance ? '✓ Sufficient balance for withdrawal' : 'Insufficient balance for withdrawal'}</div>
+        </div>
+      `;
+    }
+
+    function showCustomPopup(title, text) {
+      removeCustomPopup();
+      var appBox = document.getElementById("miniAppBox");
+      var popup = document.createElement("div");
+      popup.className = "custom-popup-overlay";
+      popup.id = "customPopupBox";
+      popup.innerHTML = `
+        <div class="custom-popup-card">
+          <div class="custom-popup-title">${escapeHtml(title)}</div>
+          <div class="custom-popup-text">${escapeHtml(text)}</div>
+          <button class="custom-popup-btn" onclick="removeCustomPopup()">OK</button>
+        </div>
+      `;
+      appBox.appendChild(popup);
+    }
+
+    function showWithdrawConfirmPopup(withdrawValue) {
+      removeCustomPopup();
+      var appBox = document.getElementById("miniAppBox");
+
+      const rawWallet = (localStorage.getItem("tonWalletAddress") || "").trim();
+      const walletLabel = rawWallet ? rawWallet : "No wallet saved";
+
+      const amountNum = Number(withdrawValue) || 0;
+      const feeFixed = 120;
+      const feePercent = amountNum * 0.05;
+      const totalFee = feeFixed + feePercent;
+      const receivable = Math.max(0, amountNum - totalFee);
+      const receivableText = receivable.toFixed(2);
+
+      const popup = document.createElement("div");
+      popup.className = "custom-popup-overlay";
+      popup.id = "customPopupBox";
+      popup.innerHTML = `
+        <div class="custom-popup-card">
+          <div class="custom-popup-title">Confirm Withdrawal</div>
+          <div class="custom-popup-text">${escapeHtml(String(withdrawValue))} confirm withdrawal</div>
+
+          <div style="margin-bottom:10px; text-align:left; color:#a8acba; font-size:13px;">Withdraw to (saved address)</div>
+          <input type="text" readonly
+                 style="width:100%;margin-bottom:12px;padding:10px 12px;border-radius:10px;border:none;background:#2d2d33;color:#fff;font-size:13px;"
+                 value="${escapeHtml(walletLabel)}">
+
+          <div style="margin-bottom:4px; text-align:left; color:#a8acba; font-size:13px;">You will receive after 120 + 5% fee:</div>
+          <input type="text" readonly
+                 style="width:100%;margin-bottom:16px;padding:10px 12px;border-radius:10px;border:none;background:#2d2d33;color:#f6c400;font-weight:bold;font-size:14px;"
+                 value="${receivableText} DOGS">
+
+          <div class="confirm-popup-actions">
+            <button class="confirm-cancel-btn" onclick="cancelWithdrawRequest()">Cancel</button>
+            <button class="confirm-ok-btn" onclick="confirmWithdrawRequest()">Confirm</button>
+          </div>
+        </div>
+      `;
+      appBox.appendChild(popup);
+    }
+
+    function removeCustomPopup() {
+      var popup = document.getElementById("customPopupBox");
+      if (popup) popup.remove();
+    }
+
+    function cancelWithdrawRequest() {
+      localStorage.removeItem("pendingWithdrawValue");
+      removeCustomPopup();
+    }
+
+async function confirmWithdrawRequest() {
+  const pendingValueStr = localStorage.getItem("pendingWithdrawValue") || "";
+  const amount = Number(pendingValueStr);
+
+  removeCustomPopup();
+  localStorage.removeItem("pendingWithdrawValue");
+
+  if (!amount || isNaN(amount)) {
+    showCustomPopup("Error", "Invalid withdrawal amount.");
+    return;
+  }
+
+  if (amount > balance) {
+    showCustomPopup("Error", "Insufficient balance to complete this withdrawal.");
+    return;
+  }
+
+  // 1) Deduct ONLY the withdrawn amount
+  balance -= amount;
+  localStorage.setItem("dogsBalance", balance.toString());
+  renderHomeLiveValues();
+
+  const user = window.currentTelegramUser || {};
+  const userId = String(user.telegramId || "guest_user");
+  const walletAddress = (localStorage.getItem("tonWalletAddress") || "").trim();
+  const createdAt = new Date().toISOString();
+
+  // 2) Save withdrawal request
+  if (window.createWithdrawalRequestToFirebase) {
+    try {
+      await window.createWithdrawalRequestToFirebase({
+        userId: userId,
+        amount: amount,
+        address: walletAddress,
+        type: "",
+        createdAt: createdAt
+      });
+    } catch (e) {
+      showCustomPopup("Error", "Withdrawal request could not be saved: " + (e.message || e));
+      return;
+    }
+  }
+
+  // 3) IMPORTANT: Update user balance in Firebase so refresh won't restore old balance
+  if (window.updateUserBalanceInFirebase) {
+    try {
+      await window.updateUserBalanceInFirebase(userId, balance);
+    } catch (e) {
+      // If this fails, refresh may restore balance again from Firebase
+      // but we keep localStorage reduced.
+      console.log("Balance sync failed:", e.message || e);
+    }
+  }
+
+  showCustomPopup("Confirmed", amount + " withdrawal request submitted.");
+  if (window.loadUserWithdrawHistoryFromFirebase) window.loadUserWithdrawHistoryFromFirebase();
+}
+
+    async function claimReferralCode() {
+      const input = document.getElementById("referClaimInput");
+      if (!input) return;
+
+      const code = input.value.trim();
+      if (!code) {
+        showCustomPopup("Error", "Please enter a referral code.");
+        return;
+      }
+
+      if (!window.handleReferralClaimFromFirebase) {
+        showCustomPopup("Error", "Referral system not ready.");
+        return;
+      }
+
+      await window.handleReferralClaimFromFirebase(code);
+    }
+
+    function backToHomeFromNotification() {
+      var homeNav = document.querySelectorAll(".nav-item")[0];
+      showTab('home', homeNav);
+    }
+
+    function getWatchAdsState() {
+      const now = Date.now();
+
+      let dailyStart = parseInt(localStorage.getItem("watchAdsDailyStart")) || 0;
+      let dailyCount = parseInt(localStorage.getItem("watchAdsDailyCount")) || 0;
+
+      if (!dailyStart || (now - dailyStart) >= 24 * 60 * 60 * 1000) {
+        dailyStart = now;
+        dailyCount = 0;
+        localStorage.setItem("watchAdsDailyStart", dailyStart.toString());
+        localStorage.setItem("watchAdsDailyCount", dailyCount.toString());
+      }
+
+      let hourlyStart = parseInt(localStorage.getItem("watchAdsHourlyStart")) || 0;
+      let hourlyCount = parseInt(localStorage.getItem("watchAdsHourlyCount")) || 0;
+
+      if (!hourlyStart || (now - hourlyStart) >= 60 * 60 * 1000) {
+        hourlyStart = now;
+        hourlyCount = 0;
+        localStorage.setItem("watchAdsHourlyStart", hourlyStart.toString());
+        localStorage.setItem("watchAdsHourlyCount", hourlyCount.toString());
+      }
+
+      return {
+        now: now,
+        dailyStart: dailyStart,
+        dailyCount: dailyCount,
+        dailyLeft: Math.max(0, watchAdsDailyLimit - dailyCount),
+        hourlyStart: hourlyStart,
+        hourlyCount: hourlyCount,
+        hourlyLeft: Math.max(0, watchAdsHourlyLimit - hourlyCount)
+      };
+    }
+
+    function updateWatchAdsUI() {
+      const state = getWatchAdsState();
+      const hourlyEl = document.getElementById("watchAdsHourlyLeft");
+      const dailyEl = document.getElementById("watchAdsDailyLeft");
+      const btn = document.getElementById("watchAdsBtn");
+      const status = document.getElementById("watchAdsStatusText");
+
+      if (hourlyEl) hourlyEl.textContent = state.hourlyLeft;
+      if (dailyEl) dailyEl.textContent = state.dailyLeft;
+
+      if (!btn || !status) return;
+
+      if (state.dailyLeft <= 0) {
+        btn.disabled = true;
+        btn.textContent = "Daily Limit Reached";
+        status.textContent = "Daily limit reached. Resets after 24 hours.";
+        return;
+      }
+
+      if (state.hourlyLeft <= 0) {
+        btn.disabled = true;
+        btn.textContent = "Hourly Limit Reached";
+        status.textContent = "Hourly limit reached. Resets after 1 hour.";
+        return;
+      }
+
+      if (!btn.getAttribute("data-counting")) {
+        btn.disabled = false;
+        btn.textContent = "▷ Watch Ad";
+        status.textContent = "";
+      }
+    }
+
+    function startWatchAd() {
+      const state = getWatchAdsState();
+      const btn = document.getElementById("watchAdsBtn");
+      const status = document.getElementById("watchAdsStatusText");
+
+      if (!btn || !status) return;
+
+      if (state.dailyLeft <= 0) {
+        btn.disabled = true;
+        btn.textContent = "Daily Limit Reached";
+        status.textContent = "Daily limit reached. Resets after 24 hours.";
+        return;
+      }
+
+      if (state.hourlyLeft <= 0) {
+        btn.disabled = true;
+        btn.textContent = "Hourly Limit Reached";
+        status.textContent = "Hourly limit reached. Resets after 1 hour.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.setAttribute("data-counting", "1");
+
+      let seconds = 10;
+      btn.textContent = "Wait " + seconds + "s";
+      status.textContent = "Redirecting... complete the 10 second countdown.";
+
+      window.open(watchAdsRedirectUrl, "_blank");
+
+      clearInterval(watchAdsCountdownTimer);
+      watchAdsCountdownTimer = setInterval(function() {
+        seconds--;
+        btn.textContent = "Wait " + seconds + "s";
+
+        if (seconds <= 0) {
+          clearInterval(watchAdsCountdownTimer);
+          completeWatchAdReward();
+        }
+      }, 1000);
+    }
+
+    function completeWatchAdReward() {
+      const btn = document.getElementById("watchAdsBtn");
+      const status = document.getElementById("watchAdsStatusText");
+
+      let state = getWatchAdsState();
+
+      state.dailyCount += 1;
+      state.hourlyCount += 1;
+
+      localStorage.setItem("watchAdsDailyCount", state.dailyCount.toString());
+      localStorage.setItem("watchAdsHourlyCount", state.hourlyCount.toString());
+
+      incrementDailyWatchAdsCountForWithdraw();
+
+      balance += watchAdsReward;
+      totalEarned += watchAdsReward;
+      totalAdsWatched += 1;
+
+      localStorage.setItem("dogsBalance", balance.toString());
+      localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+      localStorage.setItem("dogsTotalAdsWatched", totalAdsWatched.toString());
+
+      renderHomeLiveValues();
+
+      if (btn) {
+        btn.removeAttribute("data-counting");
+      }
+
+      if (status) {
+        status.textContent = "+" + watchAdsReward + " DOGS added successfully.";
+      }
+
+      updateWatchAdsUI();
+    }
+
+    function copyReferralLink() {
+      const input = document.getElementById("referralLinkInput");
+      if (!input) return;
+
+      input.select();
+      input.setSelectionRange(0, 99999);
+
+      try {
+        document.execCommand("copy");
+        showCustomPopup("Copied", "Referral link copied successfully.");
+      } catch (e) {
+        showCustomPopup("Copy Failed", "Could not copy the referral link.");
+      }
+    }
+
+    function copyReferralLink2() {
+      const input = document.getElementById("referralLinkInput2");
+      if (!input) return;
+
+      input.select();
+      input.setSelectionRange(0, 99999);
+
+      try {
+        document.execCommand("copy");
+        showCustomPopup("Copied", "Second referral code copied successfully.");
+      } catch (e) {
+        showCustomPopup("Copy Failed", "Could not copy the second referral code.");
+      }
+    }
+
+    function shareReferralLink() {
+      const input = document.getElementById("referralLinkInput");
+      if (!input) return;
+
+      const text = input.value;
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+        const shareUrl = "https://t.me/share/url?url=" + encodeURIComponent(text) + "&text=" + encodeURIComponent("Join now and earn DOGS with my referral link!");
+        window.Telegram.WebApp.openTelegramLink(shareUrl);
+      } else {
+        window.open("https://t.me/share/url?url=" + encodeURIComponent(text) + "&text=" + encodeURIComponent("Join now and earn DOGS with my referral link!"), "_blank");
+      }
+    }
+
+    function toggleWithdrawSaveButton() {
+      const input = document.getElementById("withdrawWalletInput");
+      const btn = document.getElementById("withdrawSaveBtn");
+      if (!input || !btn) return;
+
+      if (input.value.trim() !== "") {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    }
+
+    function editWithdrawWallet() {
+      localStorage.setItem("tonWalletEditMode", "1");
+      const withdrawNav = document.querySelectorAll(".nav-item")[2];
+      showTab('withdraw', withdrawNav);
+      setTimeout(function() {
+        const input = document.getElementById("withdrawWalletInput");
+        if (input) input.focus();
+        toggleWithdrawSaveButton();
+      }, 50);
+    }
+
+    function saveWithdrawWallet() {
+      const input = document.getElementById("withdrawWalletInput");
+      if (!input) return;
+      const value = input.value.trim();
+      if (!value) {
+        showCustomPopup("Error", "Please enter TON wallet address.");
+        return;
+      }
+      localStorage.setItem("tonWalletAddress", value);
+      localStorage.setItem("tonWalletEditMode", "0");
+      const withdrawNav = document.querySelectorAll(".nav-item")[2];
+      showTab('withdraw', withdrawNav);
+      showCustomPopup("Saved", "TON wallet address saved successfully.");
+    }
+
+    function withdrawDogsNow() {
+      if (!areWithdrawRequirementsCompleted()) {
+        showCustomPopup("Withdraw", "Please complete all withdrawal requirements first.");
+        return;
+      }
+
+      if (!isWithdrawOpenNow()) {
+        showCustomPopup("Withdraw", "Withdrawal time is currently closed.");
+        return;
+      }
+
+      const walletSaved = (localStorage.getItem("tonWalletAddress") || "").trim() !== "";
+      if (!walletSaved) {
+        showCustomPopup("Withdraw", "Please save your TON wallet address first.");
+        return;
+      }
+
+      if (balance < 1500) {
+        showCustomPopup("Withdraw", "Insufficient balance for withdrawal. Minimum is 1500 DOGS.");
+        return;
+      }
+
+      const amountInput = document.getElementById("withdrawAmountInput");
+      if (!amountInput) {
+        showCustomPopup("Withdraw", "Withdrawal input not found.");
+        return;
+      }
+
+      const withdrawValueRaw = amountInput.value.trim();
+      if (!withdrawValueRaw) {
+        showCustomPopup("Withdraw", "Please enter withdrawal amount.");
+        return;
+      }
+
+      const withdrawValue = Number(withdrawValueRaw);
+
+      if (isNaN(withdrawValue)) {
+        showCustomPopup("Invalid Amount", "Please enter a valid numeric amount.");
+        return;
+      }
+
+      if (!Number.isInteger(withdrawValue)) {
+        showCustomPopup("Invalid Amount", "Withdrawal amount must be a whole number.");
+        return;
+      }
+
+      if (withdrawValue < 1500 || withdrawValue > 2500) {
+        showCustomPopup(
+          "Invalid Amount",
+          "Withdrawal amount must be equal to 1500, 2500, or any value in between 1500 and 2500 DOGS."
+        );
+        return;
+      }
+
+      if (withdrawValue % 10 !== 0) {
+        showCustomPopup(
+          "Invalid Amount",
+          "Withdrawal amount must be a multiple of 10 DOGS."
+        );
+        return;
+      }
+
+      if (withdrawValue > balance) {
+        showCustomPopup(
+          "Insufficient Balance",
+          "You do not have enough balance for this withdrawal."
+        );
+        return;
+      }
+
+      localStorage.setItem("pendingWithdrawValue", withdrawValue.toString());
+      showWithdrawConfirmPopup(withdrawValue);
+    }
+
+    function openPaymentChannel() {
+      window.open("https://t.me/yourcommunitychannel", "_blank");
+    }
+
+    function showTab(tab, element) {
+      var content = document.getElementById("content-area");
+      var navItems = document.querySelectorAll(".nav-item");
+
+      navItems.forEach(function(item) {
+        item.classList.remove("active");
+      });
+
+      element.classList.add("active");
+
+      let html = "";
+
+      if (tab === "home") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <h2>Home</h2>
+
+            <div class="home-balance-card">
+              <img class="home-balance-logo" src="YOUR_IMAGE_URL_HERE" alt="Logo">
+              <div class="home-balance-label">Your Balance</div>
+              <div class="home-balance-value" id="homeBalanceValue">${balance}</div>
+              <div class="home-balance-unit">🐕 DOGS</div>
+            </div>
+
+            <div class="home-stats-grid">
+              <div class="home-stat-card">
+                <div class="home-stat-title">Total Ads Watched</div>
+                <div class="home-stat-value" id="homeAdsWatchedValue">${totalAdsWatched}</div>
+              </div>
+
+              <div class="home-stat-card">
+                <div class="home-stat-title">Total Referrals</div>
+                <div class="home-stat-value" id="homeReferralsValue">${totalReferrals}</div>
+              </div>
+
+              <div class="home-stat-card">
+                <div class="home-stat-title">Total Withdrawn Balance</div>
+                <div class="home-stat-value">0</div>
+              </div>
+
+              <div class="home-stat-card">
+                <div class="home-stat-title">Total Tasks Completed</div>
+                <div class="home-stat-value" id="homeTasksCompletedValue">${totalTasksCompleted}</div>
+              </div>
+
+              <div class="home-stat-card">
+                <div class="home-stat-title">Total Spinned</div>
+                <div class="home-stat-value" id="homeSpinnedValue">${totalSpinned}</div>
+              </div>
+
+              <div class="home-stat-card">
+                <div class="home-stat-title">Total Earned</div>
+                <div class="home-stat-value" id="homeEarnedValue">${totalEarned}</div>
+              </div>
+            </div>
+
+            <div class="app-stats-card">
+              <div class="app-stats-title">📊 App Statistics</div>
+
+              <div class="app-stats-row">
+                <div class="app-stat-left">👤 Total Users</div>
+                <div class="app-stat-right">532</div>
+              </div>
+
+              <div class="app-stats-row">
+                <div class="app-stat-left">💎 Total Payment</div>
+                <div class="app-stat-right">126,550</div>
+              </div>
+
+              <div class="app-stats-row">
+                <div class="app-stat-left">🐕 Total Paid Dogs</div>
+                <div class="app-stat-right">126,550</div>
+              </div>
+
+              <div class="app-stats-row">
+                <div class="app-stat-left">📤 Total Withdraw Dogs</div>
+                <div class="app-stat-right">126,550</div>
+              </div>
+
+              <div class="app-stats-row">
+                <div class="app-stat-left">🏦 All User Balance</div>
+                <div class="app-stat-right">174,220</div>
+              </div>
+            </div>
+
+            <div class="home-guide-card">
+              <div class="home-guide-title">🏠 Home Guide</div>
+              <ul class="home-guide-list">
+                <li>View your current DOGS balance and earning stats.</li>
+                <li>Track your total earned, withdrawn, ads watched, tasks and spins.</li>
+                <li>App statistics show overall platform performance.</li>
+                <li>Go to Earn tab to start earning more DOGS.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+      else if (tab === "earn") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <h2>Earn Dogs</h2>
+            <div class="earn-list">
+
+              <button class="earn-item" onclick="openEarnWindow('watchads')">
+                <div class="earn-left">
+                  <div class="earn-icon">📺</div>
+                  <div class="earn-text">
+                    <strong>Watch Ads</strong>
+                    <span>Earn 5 Dogs/Ad</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" onclick="openEarnWindow('tasks')">
+                <div class="earn-left">
+                  <div class="earn-icon">📋</div>
+                  <div class="earn-text">
+                    <strong>Tasks</strong>
+                    <span>Complete & Earn</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" >
+                <div class="earn-left">
+                  <div class="earn-icon">🎮</div>
+                  <div class="earn-text">
+                    <strong>Play Games & Earn</strong>
+                    <span>Crash • Tic Tac Toe • Mine</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" onclick="openEarnWindow('refer')">
+                <div class="earn-left">
+                  <div class="earn-icon">👥</div>
+                  <div class="earn-text">
+                    <strong>Refer & Earn</strong>
+                    <span>200 Dogs/Refer</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" onclick="openEarnWindow('spin')">
+                <div class="earn-left">
+                  <div class="earn-icon">🎰</div>
+                  <div class="earn-text">
+                    <strong>Spin Wheel</strong>
+                    <span>Win 5-10 Dogs</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" onclick="openEarnWindow('redeem')">
+                <div class="earn-left">
+                  <div class="earn-icon">🎁</div>
+                  <div class="earn-text">
+                    <strong>Redeem Code</strong>
+                    <span>Enter promo code</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" onclick="openEarnWindow('daily')">
+                <div class="earn-left">
+                  <div class="earn-icon">🦴</div>
+                  <div class="earn-text">
+                    <strong>Daily Bonus</strong>
+                    <span>10 Dogs daily</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+            </div>
+
+            <div class="earn-guide">
+              <div class="earn-guide-title">💰 Earn Guide</div>
+              <ul class="earn-guide-list">
+                <li>Watch ads to earn DOGS coins instantly.</li>
+                <li>Complete tasks and upload proof for rewards.</li>
+                <li>Refer friends and earn bonus DOGS.</li>
+                <li>Spin the wheel or claim daily bonus for free DOGS.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+      else if (tab === "withdraw") {
+        html = `
+          <div class="fade-in withdraw-screen">
+            <div class="withdraw-title-row">
+              <div class="withdraw-title-icon">📤</div>
+              <div class="withdraw-main-title">Withdraw</div>
+            </div>
+
+            ${getWithdrawStatusBoxHtml()}
+
+            <div class="withdraw-balance-box">
+              <div class="withdraw-balance-label">Available Balance</div>
+              <div class="withdraw-balance-value">${balance}</div>
+              <div class="withdraw-balance-unit">🐕 DOGS</div>
+
+              <div class="withdraw-meta-row">
+                <div class="withdraw-meta-pill">Min: <strong>1500</strong></div>
+                <div class="withdraw-meta-pill">Max: <strong>2500</strong></div>
+                <div class="withdraw-meta-pill">Fee: <strong>120 + 5%</strong></div>
+              </div>
+            </div>
+
+            ${getWithdrawRequirementsHtml()}
+
+            ${getWithdrawWalletHtml()}
+
+            ${getWithdrawActionBoxHtml()}
+
+            <button class="withdraw-channel-btn" onclick="openPaymentChannel()">↗ Check Payment Channel</button>
+
+            <div class="withdraw-history-box">
+              <div class="withdraw-history-title">📜 Withdraw History</div>
+              <div id="withdrawHistoryContent">
+                <div class="withdraw-history-empty">No withdrawals yet</div>
+              </div>
+            </div>
+
+            <div class="withdraw-guide-box">
+              <div class="withdraw-guide-title">📤 Withdraw Guide</div>
+              <ul class="withdraw-guide-list">
+                <li>Withdraw fee: 120 DOGS + 5% of your withdrawal amount.</li>
+                <li>Min withdraw: 1500 Dogs, Max: 2500 Dogs.</li>
+                <li>Requirements: 10 daily ads (Watch tab), 3 tasks, 2 referrals.</li>
+                <li>Save your TON wallet address before withdrawing.</li>
+                <li>Withdraw hours: 8:00 AM - 22:00 PM Sri Lanka Time.</li>
+                <li>Only one pending withdrawal allowed at a time.</li>
+                <li>Withdrawals are processed within 24 hours.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+      else if (tab === "profile") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <h2>Profile</h2>
+            <p>Manage your account details and settings.</p>
+            <div class="content-card">
+              <p><strong>Name:</strong> John Doe</p>
+              <p><strong>User ID:</strong> 123456</p>
+              <p><strong>Status:</strong> Active</p>
+            </div>
+          </div>
+        `;
+      }
+
+      content.innerHTML = html;
+      renderHomeLiveValues();
+      applyTelegramUserToHome();
+
+      if (tab === "withdraw") {
+        toggleWithdrawSaveButton();
+        if (window.loadUserWithdrawHistoryFromFirebase) {
+          window.loadUserWithdrawHistoryFromFirebase();
+        }
+      }
+    }
+
+    function renderTasksGrid() {
+  const tgSvg = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M9.04 15.56 8.9 19.2c.6 0 .86-.26 1.17-.57l2.8-2.68 5.8 4.24c1.06.59 1.82.28 2.09-.98l3.79-17.78c.31-1.45-.53-2.02-1.56-1.64L1.54 9.2C.14 9.74.16 10.52 1.28 10.87l5.77 1.8L20.4 4.4c.63-.42 1.2-.19.73.23L9.04 15.56z"/>
+    </svg>
+  `;
+
+  let cards = taskData.map(function(task) {
+    const rewardText = (task.reward || "").replace("🐕", "").trim() || "+0";
+
+    return `
+      <div class="task-card" id="task-card-${task.id}">
+        <!-- collapsed header -->
+        <div class="task-head">
+          <div class="task-head-left">
+            <div class="task-tg-icon">${tgSvg}</div>
+            <div style="min-width:0;">
+              <div class="task-head-title">${escapeHtml(task.title)}</div>
+            </div>
+          </div>
+
+          <div class="task-reward-pill">
+            <span class="coin">◈</span>
+            <span>${escapeHtml(rewardText)}</span>
+          </div>
+        </div>
+
+        <!-- clicking this expands dropdown + opens link -->
+        <button class="task-join-btn" onclick="toggleTaskDropdown('${task.id}')">
+          ${tgSvg}
+          <span>${completed ? "Details" : "Start"}</span>
+        </button>
+
+        <!-- dropdown details (hidden until expanded) -->
+        <div class="task-details" id="task-details-${task.id}">
+          <div class="task-meta-row">
+            ${task.reward ? `<div class="task-meta-pill">Reward: ${escapeHtml(task.reward)}</div>` : ``}
+            ${task.progress ? `<div class="task-meta-pill">${escapeHtml(task.progress)}</div>` : ``}
+          </div>
+
+          <div style="color:#a8acba;font-size:13px;line-height:1.6;">
+            ${escapeHtml(task.desc || "")}
+          </div>
+
+          <input type="file" accept="image/*" class="task-file-input" id="file-${task.id}"
+                 onchange="handleTaskScreenshotUpload(event, '${task.id}')">
+
+          <div class="task-actions">
+            <button class="task-action-btn task-start-btn" onclick="startTaskLink('${task.link}')">↗ Start Task</button>
+            <button class="task-action-btn task-upload-btn" onclick="document.getElementById('file-${task.id}').click()">⇪ Upload Screenshot</button>
+
+            <button class="task-action-btn task-complete-btn task-wide" onclick="submitTaskScreenshot('${task.id}')">📤 Submit Screenshot</button>
+          </div>
+
+          <div class="task-upload-status" id="upload-status-${task.id}">
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  return `<div class="tasks-grid">${cards}</div>`;
+}
+
+
+
+    /* Crash game helpers */
+
+    function renderCrashHistory() {
+      const box = document.getElementById("crashHistoryBars");
+      if (!box) return;
+
+      if (!crashHistory.length) {
+        box.innerHTML = `<span style="font-size:12px;color:#9fa4b5;">No history yet</span>`;
+        return;
+      }
+
+      const itemsHtml = crashHistory.map(function(m) {
+        return `
+          <div class="crash-history-item">
+            <div class="crash-history-label">${m.toFixed(2)}x</div>
+          </div>
+        `;
+      }).join("");
+
+      box.innerHTML = itemsHtml;
+    }
+
+    function startPropellerSpin(durationMs) {
+      crashPropellerDuration = durationMs;
+      crashPropellerAngle = 0;
+      crashPropellerLastTs = 0;
+      crashPropellerStartTs = 0;
+      cancelAnimationFrame(crashPropellerAnimId);
+      crashPropellerAnimId = requestAnimationFrame(stepPropellerSpin);
+    }
+
+    function stepPropellerSpin(ts) {
+      const img = document.getElementById("crashPropellerImg");
+      const overlay = document.getElementById("crashCountdownOverlay");
+      if (!img || !overlay || overlay.style.display === "none") {
+        crashPropellerAnimId = null;
+        return;
+      }
+
+      if (!crashPropellerLastTs) crashPropellerLastTs = ts;
+      if (!crashPropellerStartTs) crashPropellerStartTs = ts;
+
+      const dt = ts - crashPropellerLastTs;
+      crashPropellerLastTs = ts;
+
+      const elapsed = ts - crashPropellerStartTs;
+      const t = Math.max(0, Math.min(elapsed / crashPropellerDuration, 1));
+
+      const minSpeed = 90;
+      const maxSpeed = 720;
+      const speed = minSpeed + (maxSpeed - minSpeed) * t;
+
+      crashPropellerAngle = (crashPropellerAngle + speed * (dt / 1000)) % 360;
+      img.style.transform = `rotate(${crashPropellerAngle}deg)`;
+
+      crashPropellerAnimId = requestAnimationFrame(stepPropellerSpin);
+    }
+
+    function stopPropellerSpin() {
+      cancelAnimationFrame(crashPropellerAnimId);
+      crashPropellerAnimId = null;
+    }
+
+    /* === CRASH BET FUNCTIONS (NEW) === */
+
+    function isCrashBetWindowOpen() {
+      const overlay = document.getElementById("crashCountdownOverlay");
+      const inCountdown = overlay && overlay.style.display !== "none";
+      return inCountdown && crashCountdownRemaining > 2;
+    }
+
+    function getCrashPayoutNow() {
+      if (!crashBetActive || crashBetAmount <= 0) return 0;
+      return crashBetAmount * crashCurrentMultiplier;
+    }
+
+    function setCrashBetStatus(msg) {
+      const el = document.getElementById("crashBetStatus");
+      if (el) el.textContent = msg || "";
+    }
+
+    function updateCrashBetUI() {
+      const betInput = document.getElementById("crashBetInput");
+      const betBtn = document.getElementById("crashBetBtn");
+      const payoutBox = document.getElementById("crashPayoutBox");
+      const cashoutBtn = document.getElementById("crashCashoutBtn");
+      const overlay = document.getElementById("crashCountdownOverlay");
+
+      if (!betBtn || !payoutBox || !cashoutBtn) return;
+
+      const inCountdown = overlay && overlay.style.display !== "none";
+      const betWindowOpen = isCrashBetWindowOpen();
+      const inFlight = crashGameActive === true;
+
+      if (betInput) {
+        betInput.disabled = crashBetActive || inFlight || !betWindowOpen;
+        betInput.style.opacity = betInput.disabled ? "0.75" : "1";
+      }
+
+      if (!crashBetActive) {
+        betBtn.textContent = "Bet";
+        betBtn.disabled = !betWindowOpen || inFlight;
+        betBtn.style.background = "linear-gradient(90deg,#ffcc00,#f59e0b)";
+        betBtn.style.color = "#111";
+        betBtn.style.cursor = betBtn.disabled ? "not-allowed" : "pointer";
+        betBtn.style.opacity = betBtn.disabled ? "0.75" : "1";
+      } else {
+        betBtn.textContent = "Cancel";
+        betBtn.disabled = !betWindowOpen || inFlight;
+        betBtn.style.background = "#ef4444";
+        betBtn.style.color = "#fff";
+        betBtn.style.cursor = betBtn.disabled ? "not-allowed" : "pointer";
+        betBtn.style.opacity = betBtn.disabled ? "0.75" : "1";
+      }
+
+      if (crashBetActive && inFlight && crashBetRoundId === crashRoundId && !crashBetCashedOut) {
+        const payout = getCrashPayoutNow();
+        payoutBox.value = payout.toFixed(2) + " DOGS";
+      } else {
+        payoutBox.value = "0.00 DOGS";
+      }
+
+      const canCashout = (crashBetActive && inFlight && crashBetRoundId === crashRoundId && !crashBetCashedOut);
+      cashoutBtn.disabled = !canCashout;
+      if (canCashout) {
+        cashoutBtn.style.background = "linear-gradient(90deg,#ffcc00,#f59e0b)";
+        cashoutBtn.style.color = "#111";
+        cashoutBtn.style.cursor = "pointer";
+        cashoutBtn.style.opacity = "1";
+      } else {
+        cashoutBtn.style.background = "#555";
+        cashoutBtn.style.color = "#111";
+        cashoutBtn.style.cursor = "not-allowed";
+        cashoutBtn.style.opacity = "0.85";
+      }
+    }
+
+    function toggleCrashBet() {
+      if (!crashBetActive) {
+        placeCrashBet();
+      } else {
+        cancelCrashBet();
+      }
+    }
+
+    function placeCrashBet() {
+      if (!isCrashBetWindowOpen()) {
+        setCrashBetStatus("Timeout: betting is closed for this round.");
+        showCustomPopup("Timeout", "You can only bet during the countdown (not in the last 2 seconds).");
+        updateCrashBetUI();
+        return;
+      }
+
+      if (crashBetActive) return;
+
+      const input = document.getElementById("crashBetInput");
+      if (!input) return;
+
+      const amt = Number(String(input.value || "").trim());
+
+      if (!amt || isNaN(amt)) {
+        setCrashBetStatus("Enter a valid bet amount.");
+        showCustomPopup("Error", "Please enter a valid numeric bet amount.");
+        return;
+      }
+
+      if (!Number.isInteger(amt)) {
+        setCrashBetStatus("Bet must be a whole number.");
+        showCustomPopup("Invalid", "Bet amount must be a whole number.");
+        return;
+      }
+
+      if (amt < 1000 || amt > 10000) {
+        setCrashBetStatus("Bet must be 1000 - 10000.");
+        showCustomPopup("Invalid Bet", "Minimum bet is 1000 and maximum bet is 10000.");
+        return;
+      }
+
+      if (amt > balance) {
+        setCrashBetStatus("Insufficient balance.");
+        showCustomPopup("Error", "Insufficient balance to place this bet.");
+        return;
+      }
+
+      balance -= amt;
+      localStorage.setItem("dogsBalance", balance.toString());
+      renderHomeLiveValues();
+
+      crashBetAmount = amt;
+      crashBetActive = true;
+      crashBetCashedOut = false;
+
+      crashBetRoundId = crashRoundId + 1;
+
+      setCrashBetStatus("Bet successful: " + amt + " DOGS");
+      showCustomPopup("Bet Successful", amt + " DOGS bet placed successfully.");
+
+      updateCrashBetUI();
+    }
+
+    function cancelCrashBet() {
+      if (!crashBetActive) return;
+
+      if (!isCrashBetWindowOpen()) {
+        setCrashBetStatus("Timeout: cannot cancel now.");
+        showCustomPopup("Timeout", "You can only cancel before the last 2 seconds of the countdown.");
+        updateCrashBetUI();
+        return;
+      }
+
+      balance += crashBetAmount;
+      localStorage.setItem("dogsBalance", balance.toString());
+      renderHomeLiveValues();
+
+      const refunded = crashBetAmount;
+
+      crashBetAmount = 0;
+      crashBetActive = false;
+      crashBetRoundId = 0;
+      crashBetCashedOut = false;
+
+      setCrashBetStatus("Bet cancelled. Refunded " + refunded + " DOGS");
+      showCustomPopup("Cancelled", "Bet cancelled and refunded.");
+
+      updateCrashBetUI();
+    }
+
+    function cashoutCrashBet() {
+      if (!crashGameActive) return;
+      if (!crashBetActive) return;
+      if (crashBetRoundId !== crashRoundId) return;
+      if (crashBetCashedOut) return;
+
+      const payout = getCrashPayoutNow();
+      const payoutFixed = Number(payout.toFixed(2));
+
+      balance += payoutFixed;
+
+      const profit = Math.max(0, payoutFixed - crashBetAmount);
+      totalEarned += profit;
+
+      localStorage.setItem("dogsBalance", balance.toString());
+      localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+
+      renderHomeLiveValues();
+
+      crashBetCashedOut = true;
+
+      const msg = "Congratulations! You cashed out " + payoutFixed.toFixed(2) + " DOGS.";
+      setCrashBetStatus(msg);
+      showCustomPopup("Congratulations", msg);
+
+      crashBetAmount = 0;
+      crashBetActive = false;
+      crashBetRoundId = 0;
+
+      updateCrashBetUI();
+    }
+
+    /* === UPDATED CRASH FUNCTIONS (REPLACED) === */
+
+    function startCrashCountdown(seconds) {
+      const overlay = document.getElementById("crashCountdownOverlay");
+      const countdownEl = document.getElementById("crashCountdownText");
+      const status = document.getElementById("crashStatus");
+      const plane = document.getElementById("crashPlane");
+
+      cancelAnimationFrame(crashAnimationId);
+      clearInterval(crashCountdownTimer);
+      crashGameActive = false;
+
+      if (plane) {
+        plane.classList.remove("crash-plane-flying");
+        plane.classList.remove("crash-plane-crashed");
+        plane.style.transform = "translate(0px,0px)";
+      }
+
+      let remaining = seconds;
+      crashCountdownRemaining = remaining;
+
+      if (overlay) overlay.style.display = "flex";
+      if (countdownEl) countdownEl.textContent = "Next flight in " + remaining + "s";
+      if (status) status.textContent = "Next flight starting soon...";
+
+      startPropellerSpin(seconds * 1000);
+      updateCrashBetUI();
+
+      crashCountdownTimer = setInterval(function() {
+        remaining--;
+        crashCountdownRemaining = remaining;
+
+        if (remaining >= 0 && countdownEl) {
+          countdownEl.textContent = "Next flight in " + remaining + "s";
+        }
+
+        updateCrashBetUI();
+
+        if (remaining <= 0) {
+          clearInterval(crashCountdownTimer);
+          crashCountdownRemaining = 0;
+          if (overlay) overlay.style.display = "none";
+          if (countdownEl) countdownEl.textContent = "Flight in progress...";
+          updateCrashBetUI();
+          startCrashRound();
+        }
+      }, 1000);
+    }
+
+    function initCrashGameUI() {
+      clearInterval(crashCountdownTimer);
+      cancelAnimationFrame(crashAnimationId);
+      stopPropellerSpin();
+      crashGameActive = false;
+      crashStartTime = 0;
+      crashCurrentMultiplier = 1;
+
+      crashCountdownRemaining = 10;
+      crashBetAmount = 0;
+      crashBetActive = false;
+      crashBetRoundId = 0;
+      crashBetCashedOut = false;
+
+      const plane = document.getElementById("crashPlane");
+      const mult = document.getElementById("crashMultiplier");
+      const status = document.getElementById("crashStatus");
+      const countdownEl = document.getElementById("crashCountdownText");
+      const overlay = document.getElementById("crashCountdownOverlay");
+
+      if (plane) {
+        plane.style.transform = "translate(0px,0px)";
+        plane.classList.remove("crash-plane-crashed");
+        plane.classList.remove("crash-plane-flying");
+      }
+      if (mult) mult.textContent = "1.00x";
+      if (status) status.textContent = "Preparing next flight...";
+      if (overlay) overlay.style.display = "flex";
+      if (countdownEl) countdownEl.textContent = "Next flight in 10s";
+
+      setCrashBetStatus("");
+      renderCrashHistory();
+      updateCrashBetUI();
+      startCrashCountdown(10);
+    }
+
+    function startCrashRound() {
+      if (crashGameActive) return;
+
+      const mult = document.getElementById("crashMultiplier");
+      const status = document.getElementById("crashStatus");
+      const plane = document.getElementById("crashPlane");
+
+      stopPropellerSpin();
+      cancelAnimationFrame(crashAnimationId);
+
+      crashGameActive = true;
+      crashStartTime = 0;
+      crashCurrentMultiplier = 1.0;
+      crashTargetMultiplier = 1.2 + Math.random() * 6.8;
+
+      crashRoundId += 1;
+
+      if (crashBetActive && crashBetRoundId !== crashRoundId) {
+        balance += crashBetAmount;
+        localStorage.setItem("dogsBalance", balance.toString());
+        renderHomeLiveValues();
+
+        crashBetAmount = 0;
+        crashBetActive = false;
+        crashBetRoundId = 0;
+        crashBetCashedOut = false;
+
+        setCrashBetStatus("Bet refunded (round changed). Please bet again.");
+      }
+
+      if (mult) mult.textContent = "1.00x";
+      if (status) status.textContent = "Flying...";
+      if (plane) {
+        plane.classList.remove("crash-plane-crashed");
+        plane.classList.add("crash-plane-flying");
+        plane.style.transform = "translate(0px,0px)";
+      }
+
+      updateCrashBetUI();
+      crashAnimationId = requestAnimationFrame(stepCrashAnimation);
+    }
+
+    function stepCrashAnimation(timestamp) {
+      const mult = document.getElementById("crashMultiplier");
+      const status = document.getElementById("crashStatus");
+      const plane = document.getElementById("crashPlane");
+
+      if (!mult || !status || !plane) {
+        crashGameActive = false;
+        return;
+      }
+
+      if (!crashStartTime) crashStartTime = timestamp;
+      const elapsed = (timestamp - crashStartTime) / 1000;
+
+      const baseGrowth = 1 + elapsed * 0.7 + elapsed * elapsed * 0.15;
+      crashCurrentMultiplier = baseGrowth;
+
+      updateCrashBetUI();
+
+      if (crashCurrentMultiplier >= crashTargetMultiplier) {
+        crashCurrentMultiplier = crashTargetMultiplier;
+
+        mult.textContent = crashCurrentMultiplier.toFixed(2) + "x";
+        status.textContent = "CRASHED at " + crashCurrentMultiplier.toFixed(2) + "x";
+        plane.classList.remove("crash-plane-flying");
+        plane.classList.add("crash-plane-crashed");
+        crashGameActive = false;
+
+        if (crashBetActive && crashBetRoundId === crashRoundId && !crashBetCashedOut) {
+          const lost = crashBetAmount;
+
+          crashBetAmount = 0;
+          crashBetActive = false;
+          crashBetRoundId = 0;
+          crashBetCashedOut = false;
+
+          setCrashBetStatus("Plane crashed! Lost " + lost + " DOGS. Try again.");
+          showCustomPopup("Try Again", "Plane crashed! You lost " + lost + " DOGS.");
+        }
+
+        crashHistory.unshift(crashCurrentMultiplier);
+        if (crashHistory.length > 10) crashHistory.pop();
+        renderCrashHistory();
+
+        updateCrashBetUI();
+        startCrashCountdown(10);
+        return;
+      }
+
+      mult.textContent = crashCurrentMultiplier.toFixed(2) + "x";
+      status.textContent = "Flying...";
+
+      const progress = Math.min((crashCurrentMultiplier - 1) / (crashTargetMultiplier - 1), 1);
+      const maxX = 220;
+      const maxY = -90;
+      plane.style.transform = `translate(${progress * maxX}px, ${progress * maxY}px)`;
+
+      crashAnimationId = requestAnimationFrame(stepCrashAnimation);
+    }
+
+    async function openEarnWindow(type) {
+      clearInterval(dailyTimerInterval);
+      clearInterval(spinUnlockTimer);
+      clearInterval(spinCooldownTimer);
+      clearInterval(redeemCountdownTimer);
+      clearInterval(watchAdsCountdownTimer);
+      clearInterval(crashCountdownTimer);
+      cancelAnimationFrame(crashAnimationId);
+      stopPropellerSpin();
+      crashGameActive = false;
+      removeSpinPopup();
+      removeCustomPopup();
+
+      await syncReferralDataFromFirebase();
+
+      var content = document.getElementById("content-area");
+      let html = "";
+
+      if (type === "watchads") {
+        const state = getWatchAdsState();
+
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToEarn()">←</button>
+              <div class="sub-page-title">Watch Ads</div>
+            </div>
+
+            <div class="watchads-panel">
+              <div class="watchads-big-icon">📺</div>
+              <div class="watchads-reward-title">5 DOGS</div>
+              <div class="watchads-reward-sub">per ad watched</div>
+
+              <div class="watchads-stats">
+                <div class="watchads-stat-box">
+                  <div class="watchads-stat-value" id="watchAdsHourlyLeft">${state.hourlyLeft}</div>
+                  <div class="watchads-stat-label">Hourly Left</div>
+                </div>
+                <div class="watchads-stat-box">
+                  <div class="watchads-stat-value" id="watchAdsDailyLeft">${state.dailyLeft}</div>
+                  <div class="watchads-stat-label">Daily Left</div>
+                </div>
+              </div>
+
+              <button class="watchads-main-btn" id="watchAdsBtn" onclick="startWatchAd()">▷ Watch Ad</button>
+              <div class="watchads-status" id="watchAdsStatusText"></div>
+            </div>
+
+            <div class="earn-guide">
+              <div class="earn-guide-title">📺 Watch Ads Guide</div>
+              <ul class="earn-guide-list">
+                <li>Watch ads to earn DOGS coins instantly.</li>
+                <li>You can watch up to 100 ads per hour and 1000 per day.</li>
+                <li>After watching, reward is added automatically after 10 seconds.</li>
+                <li>Hourly limit resets every 1 hour.</li>
+                <li>Daily limit resets after 24 hours.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+
+        content.innerHTML = html;
+        applyTelegramUserToHome();
+        updateWatchAdsUI();
+        return;
+      }
+
+      if (type === "games") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToEarn()">←</button>
+              <div class="sub-page-title">Play Games & Earn</div>
+            </div>
+
+            <div class="earn-list">
+              <button class="earn-item" onclick="openEarnWindow('crash')">
+                <div class="earn-left">
+                  <div class="earn-icon">💥</div>
+                  <div class="earn-text">
+                    <strong>Crash</strong>
+                    <span>High risk, high reward</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" onclick="openEarnWindow('tictac')">
+                <div class="earn-left">
+                  <div class="earn-icon">❌</div>
+                  <div class="earn-text">
+                    <strong>Tic Tac Toe</strong>
+                    <span>Win rounds & earn</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+
+              <button class="earn-item" onclick="openEarnWindow('mine')">
+                <div class="earn-left">
+                  <div class="earn-icon">💣</div>
+                  <div class="earn-text">
+                    <strong>Mine</strong>
+                    <span>Find rewards safely</span>
+                  </div>
+                </div>
+                <div class="earn-arrow">›</div>
+              </button>
+            </div>
+
+            <div class="earn-guide">
+              <div class="earn-guide-title">🎮 Games Guide</div>
+              <ul class="earn-guide-list">
+                <li>Select any game to open its game window.</li>
+                <li>Each game will have its own earning rules.</li>
+                <li>Future updates will let you play and earn DOGS directly from these games.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+
+        content.innerHTML = html;
+        applyTelegramUserToHome();
+        return;
+      }
+
+      if (type === "tasks") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToEarn()">←</button>
+              <div class="sub-page-title">Tasks</div>
+            </div>
+            ${renderTasksGrid()}
+          </div>
+        `;
+      }
+
+      if (type === "refer") {
+        const userReferralCode = getUserReferralCode();
+
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToEarn()">←</button>
+              <div class="sub-page-title">Refer & Earn</div>
+            </div>
+
+            <div class="refer-panel">
+              <div class="refer-big-icon">👥</div>
+              <div class="refer-reward-title">200</div>
+              <div class="refer-reward-sub">Dogs per Referral</div>
+            </div>
+
+            <div class="refer-stats">
+              <div class="refer-stat-box">
+                <div class="refer-stat-value">${totalReferrals}</div>
+                <div class="refer-stat-label">Total Refers</div>
+              </div>
+              <div class="refer-stat-box">
+                <div class="refer-stat-value">${totalReferrals * referralRewardPerReferral}</div>
+                <div class="refer-stat-label">Total Earned</div>
+              </div>
+            </div>
+
+            <div class="refer-link-card">
+              <div class="refer-link-title">Your Referral Link</div>
+
+              <div class="refer-link-row">
+                <input type="text" class="refer-link-input" id="referralLinkInput" value="https//:tm.bear earn" readonly>
+                <button class="refer-copy-btn" onclick="copyReferralLink()">⧉</button>
+              </div>
+
+              <div class="refer-link-row">
+                <input type="text" class="refer-link-input" id="referralLinkInput2" value="${userReferralCode}" readonly>
+                <button class="refer-copy-btn" onclick="copyReferralLink2()">⧉</button>
+              </div>
+
+              <div class="refer-claim-row">
+                <input type="text" class="refer-claim-input" id="referClaimInput" placeholder="Enter referral code">
+                <button class="refer-claim-btn" onclick="claimReferralCode()">Claim</button>
+              </div>
+
+              <button class="refer-share-btn" onclick="shareReferralLink()">⤴ Share via Telegram</button>
+            </div>
+
+            <div class="refer-history-card">
+              <div class="refer-history-title">📜 Refer History</div>
+              <div class="refer-empty-history">${totalReferrals > 0 ? totalReferrals + ' referrals counted' : 'No referrals yet'}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (type === "spin") {
+        spinUnlockReady = false;
+        spinInProgress = false;
+        pendingSpinPrize = 0;
+        pendingSpinClaimed = false;
+
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToEarn()">←</button>
+              <div class="sub-page-title">Spin Wheel</div>
+            </div>
+
+            <div class="spin-wrap">
+              <div class="wheel-area">
+                <div class="wheel-pointer"></div>
+                <div class="spin-wheel" id="spinWheel">
+                  <div class="wheel-center"></div>
+
+                  <div class="wheel-label" style="transform: rotate(22.5deg) translateY(-126px) rotate(67.5deg);">5</div>
+                  <div class="wheel-label" style="transform: rotate(67.5deg) translateY(-126px) rotate(22.5deg);">10</div>
+                  <div class="wheel-label" style="transform: rotate(112.5deg) translateY(-126px) rotate(-22.5deg);">5</div>
+                  <div class="wheel-label" style="transform: rotate(157.5deg) translateY(-126px) rotate(-67.5deg);">10</div>
+                  <div class="wheel-label" style="transform: rotate(202.5deg) translateY(-126px) rotate(-112.5deg);">5</div>
+                  <div class="wheel-label" style="transform: rotate(247.5deg) translateY(-126px) rotate(-157.5deg);">10</div>
+                  <div class="wheel-label" style="transform: rotate(292.5deg) translateY(-126px) rotate(-202.5deg);">5</div>
+                  <div class="wheel-label" style="transform: rotate(337.5deg) translateY(-126px) rotate(-247.5deg);">10</div>
+                </div>
+              </div>
+
+              <button class="spin-dark-btn" id="spinUnlockBtn" onclick="unlockSpinByVisit()">🔒 Watch Ad to Unlock Spin</button>
+              <button class="spin-yellow-btn" id="spinActionBtn" disabled onclick="startSpin()">🔒 Locked</button>
+              <div class="spin-status" id="spinStatusText"></div>
+            </div>
+
+            <div class="earn-guide">
+              <div class="earn-guide-title">🎰 Spin Guide</div>
+              <ul class="earn-guide-list">
+                <li>Watch an ad to unlock each spin.</li>
+                <li>Win 5 or 10 DOGS with every spin.</li>
+                <li>Claim your reward by watching another ad.</li>
+                <li>2 minute cooldown between spins.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+
+        content.innerHTML = html;
+        restoreSpinCooldownUI();
+        applyTelegramUserToHome();
+        return;
+      }
+
+      if (type === "redeem") {
+        const redeemHistory = JSON.parse(localStorage.getItem("redeemHistory") || "[]");
+        let historyHtml = "";
+
+        if (redeemHistory.length === 0) {
+          historyHtml = `<div class="redeem-empty-history">No codes redeemed yet</div>`;
+        } else {
+          historyHtml = redeemHistory.map(function(item) {
+            return `
+              <div class="notify-item" style="margin-bottom:10px;">
+                <div class="notify-item-title">${item.code}</div>
+                <div class="notify-item-text">Reward: ${item.reward}</div>
+                <div class="notify-item-time">${item.time}</div>
+              </div>
+            `;
+          }).join("");
+        }
+
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToEarn()">←</button>
+              <div class="sub-page-title">Redeem Code</div>
+            </div>
+
+            <div class="redeem-card">
+              <div class="redeem-icon">🎁</div>
+              <div class="redeem-title">Redeem Code</div>
+
+              <div class="redeem-row">
+                <input type="text" class="redeem-input" id="redeemCodeInput" placeholder="Enter code..." oninput="toggleRedeemButton()">
+                <button class="redeem-btn" id="redeemClaimBtn" onclick="startRedeemCountdown()" disabled>Claim</button>
+              </div>
+
+              <div class="redeem-channel-box">
+                💡 Get codes from our <a href="https://t.me/yourcommunitychannel" target="_blank">Community Channel</a>
+              </div>
+
+              <div class="redeem-history-title">Redeem History</div>
+              <div id="redeemHistoryBox">${historyHtml}</div>
+              <div class="redeem-status" id="redeemStatusText"></div>
+            </div>
+
+            <div class="earn-guide">
+              <div class="earn-guide-title">🎁 Redeem Guide</div>
+              <ul class="earn-guide-list">
+                <li>Enter a valid promo code to earn free DOGS.</li>
+                <li>Codes are shared in our Community Channel.</li>
+                <li>Each code has a claim limit. Be quick!</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+
+      if (type === "daily") {
+        let now = Date.now();
+        let lastClaim = parseInt(localStorage.getItem("dailyBonusLastClaim")) || 0;
+        let canClaim = (now - lastClaim) >= dailyCooldown;
+        let statusText = canClaim ? "Bonus available now" : "";
+        let buttonText = canClaim ? "🦴 Claim 50 Dogs" : "⏳ Available in...";
+        let disabledAttr = canClaim ? "" : "disabled";
+
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToEarn()">←</button>
+              <div class="sub-page-title">Daily Bonus</div>
+            </div>
+
+            <div class="daily-bonus-card">
+              <div class="daily-bonus-icon">🦴</div>
+              <div class="daily-bonus-title">Daily Bonus</div>
+              <div class="daily-bonus-subtitle">Claim 50 Dogs every day!</div>
+              <div class="daily-bonus-time">Resets after 24 hours</div>
+              <button class="claim-btn" id="dailyClaimBtn" ${disabledAttr} onclick="claimDailyBonus()">${buttonText}</button>
+              <div class="daily-status" id="dailyStatusText">${statusText}</div>
+            </div>
+
+            <div class="earn-guide">
+              <div class="earn-guide-title">🦴 Daily Bonus Guide</div>
+              <ul class="earn-guide-list">
+                <li>Claim your free daily DOGS bonus once per day.</li>
+                <li>Click the claim button and complete the 10 second visit.</li>
+                <li>You will receive 50 DOGS after the countdown ends.</li>
+                <li>Bonus becomes active again after 24 hours.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+
+      if (type === "crash") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToGames()">←</button>
+              <div class="sub-page-title">Crash</div>
+            </div>
+
+            <div class="crash-wrap">
+              <div class="content-card crash-history-strip">
+                <div style="font-size:14px;font-weight:bold;margin-bottom:6px;">Last 10 Crashes</div>
+                <div class="crash-history-bars" id="crashHistoryBars"></div>
+              </div>
+
+              <div class="crash-graph-box">
+                <div class="crash-plane" id="crashPlane">✈️</div>
+
+                <div class="crash-countdown-overlay" id="crashCountdownOverlay">
+                  <div class="crash-countdown-icon">
+                    <img src="propeller1.png" alt="Propeller" class="crash-propeller" id="crashPropellerImg">
+                  </div>
+                  <div class="crash-countdown-text" id="crashCountdownText">Next flight in 10s</div>
+                </div>
+              </div>
+
+              <div class="crash-multiplier-box">
+                <div class="crash-multiplier-label">Multiplier</div>
+                <div class="crash-multiplier-value" id="crashMultiplier">1.00x</div>
+                <div class="crash-status-text" id="crashStatus">Preparing next flight...</div>
+              </div>
+
+              <!-- === BET UI (NEW) === -->
+              <div class="content-card" style="margin-top:0;">
+                <div style="font-size:14px;font-weight:bold;margin-bottom:10px;">Bet</div>
+
+                <div style="display:flex;gap:10px;align-items:center;">
+                  <input
+                    type="number"
+                    id="crashBetInput"
+                    placeholder="1000 - 10000"
+                    style="flex:1;background:#2d2d33;border:none;border-radius:16px;padding:14px 14px;color:#fff;font-size:15px;outline:none;"
+                  >
+                  <button
+                    id="crashBetBtn"
+                    onclick="toggleCrashBet()"
+                    style="min-width:92px;border:none;border-radius:16px;padding:14px 16px;font-weight:bold;background:linear-gradient(90deg,#ffcc00,#f59e0b);color:#111;cursor:pointer;"
+                  >Bet</button>
+                </div>
+
+                <div style="display:flex;gap:10px;margin-top:12px;align-items:center;">
+                  <input
+                    type="text"
+                    readonly
+                    id="crashPayoutBox"
+                    value="0.00 DOGS"
+                    style="flex:1;border:none;border-radius:999px;padding:14px 16px;background:#2d2d33;color:#f6c400;font-weight:bold;text-align:center;outline:none;"
+                  >
+                  <button
+                    id="crashCashoutBtn"
+                    onclick="cashoutCrashBet()"
+                    disabled
+                    style="min-width:120px;border:none;border-radius:999px;padding:14px 16px;font-weight:bold;background:#555;color:#111;cursor:not-allowed;opacity:0.85;"
+                  >Cashout</button>
+                </div>
+
+                <div id="crashBetStatus" style="margin-top:10px;color:#f6c400;font-weight:bold;font-size:13px;min-height:18px;text-align:center;"></div>
+
+                <div style="margin-top:6px;color:#9fa4b5;font-size:12px;line-height:1.45;text-align:center;">
+                  Bet only during the 10s countdown. Betting closes in the last 2 seconds.
+                </div>
+              </div>
+            </div>
+
+            <div class="earn-guide">
+              <div class="earn-guide-title">💥 Crash Game (Auto)</div>
+              <ul class="earn-guide-list">
+                <li>The plane takes off automatically after every 10 second countdown.</li>
+                <li>The multiplier increases over time until the plane crashes at a random value.</li>
+                <li>The last 10 crash multipliers are shown at the top as a history strip.</li>
+                <li>Place bet during countdown (not allowed in last 2 seconds). Cashout before crash to win.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+
+        content.innerHTML = html;
+        applyTelegramUserToHome();
+        initCrashGameUI();
+        return;
+      }
+
+      if (type === "tictac") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToGames()">←</button>
+              <div class="sub-page-title">Tic Tac Toe</div>
+            </div>
+            <div class="content-card">
+              <p>Tic Tac Toe game will be available soon. Win matches against other players or the bot and earn DOGS for each victory.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      if (type === "mine") {
+        html = `
+          <div class="fade-in">
+            ${renderTopButton()}
+            <div class="sub-page-header">
+              <button class="back-btn" onclick="backToGames()">←</button>
+              <div class="sub-page-title">Mine</div>
+            </div>
+            <div class="content-card">
+              <p>Mine game will be available soon. Open safe tiles, avoid bombs and collect DOGS based on how many safe spots you uncover.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      content.innerHTML = html;
+      applyTelegramUserToHome();
+
+      if (type === "crash") {
+        initCrashGameUI();
+      }
+    }
+
+    function toggleRedeemButton() {
+      const input = document.getElementById("redeemCodeInput");
+      const btn = document.getElementById("redeemClaimBtn");
+      if (!input || !btn) return;
+
+      if (input.value.trim() !== "") {
+        btn.disabled = false;
+        btn.classList.add("active");
+      } else {
+        btn.disabled = true;
+        btn.classList.remove("active");
+      }
+    }
+
+    function startRedeemCountdown() {
+      const input = document.getElementById("redeemCodeInput");
+      const btn = document.getElementById("redeemClaimBtn");
+      const status = document.getElementById("redeemStatusText");
+
+      if (!input || !btn || !status) return;
+
+      const codeValue = input.value.trim().toUpperCase();
+      if (!codeValue) {
+        status.textContent = "Please enter a code.";
+        return;
+      }
+
+      redeemPendingCode = codeValue;
+      btn.disabled = true;
+      btn.classList.add("active");
+
+      let seconds = 10;
+      btn.textContent = "Wait " + seconds + "s";
+      status.textContent = "Redirecting... complete the 10 second countdown.";
+
+      window.open(redeemRedirectUrl, "_blank");
+
+      clearInterval(redeemCountdownTimer);
+      redeemCountdownTimer = setInterval(async function() {
+        seconds--;
+        btn.textContent = "Wait " + seconds + "s";
+
+        if (seconds <= 0) {
+          clearInterval(redeemCountdownTimer);
+          btn.textContent = "Claim";
+          status.textContent = "Checking code...";
+          await claimRedeemCode();
+        }
+      }, 1000);
+    }
+
+    async function claimRedeemCode() {
+      const input = document.getElementById("redeemCodeInput");
+      const status = document.getElementById("redeemStatusText");
+      const btn = document.getElementById("redeemClaimBtn");
+
+      if (!input || !status || !btn) return;
+
+      const codeValue = redeemPendingCode || input.value.trim().toUpperCase();
+      if (!codeValue) {
+        status.textContent = "Please enter a code.";
+        toggleRedeemButton();
+        return;
+      }
+
+      status.textContent = "Checking code...";
+
+      if (!window.handleRedeemCodeFromFirebase) {
+        status.textContent = "Redeem system not ready.";
+        toggleRedeemButton();
+        return;
+      }
+
+      const success = await window.handleRedeemCodeFromFirebase(codeValue);
+
+      if (!success) {
+        toggleRedeemButton();
+      }
+    }
+
+    function toggleTaskCard(taskId) {
+      var cards = document.querySelectorAll(".task-card");
+      cards.forEach(function(card) {
+        if (card.id === "task-card-" + taskId) {
+          card.classList.toggle("expanded");
+        } else {
+          card.classList.remove("expanded");
+        }
+      });
+    }
+
+    function startTaskLink(url) {
+      window.open(url, "_blank");
+    }
+
+    function handleTaskScreenshotUpload(event, taskId) {
+  var file = event.target.files[0];
+  var status = document.getElementById("upload-status-" + taskId);
+  if (!status) return;
+
+  if (!file) {
+    status.textContent = "";
+    return;
+  }
+
+  async function submitTaskScreenshot(taskId) {
+  const status = document.getElementById("upload-status-" + taskId);
+  if (!status) return;
+
+  const img = taskScreenshotCache[taskId];
+  if (!img) {
+    status.textContent = "Please upload screenshot first.";
+    return;
+  }
+
+  try {
+    await window.submitTaskScreenshotToFirebase(taskId, img);
+    status.textContent = "Submitted successfully!";
+    showCustomPopup("Submitted", "Screenshot sent to admin.");
+    delete taskScreenshotCache[taskId];
+  } catch (e) {
+    status.textContent = "Submit failed.";
+    showCustomPopup("Error", e.message || String(e));
+  }
+}
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    taskScreenshotCache[taskId] = e.target.result; // base64 image
+    status.textContent = "Screenshot selected. Now press SUBMIT.";
+  };
+  reader.readAsDataURL(file);
+}
+
+    function claimDailyBonus() {
+      let lastClaim = parseInt(localStorage.getItem("dailyBonusLastClaim")) || 0;
+      let now = Date.now();
+      if ((now - lastClaim) < dailyCooldown) return;
+
+      var btn = document.getElementById("dailyClaimBtn");
+      var status = document.getElementById("dailyStatusText");
+      if (!btn || !status) return;
+
+      btn.disabled = true;
+      let seconds = 10;
+      btn.textContent = "⏳ Wait " + seconds + "s";
+      status.textContent = "Redirecting... complete the countdown to receive 50 DOGS.";
+
+      window.open(dailyRedirectUrl, "_blank");
+
+      let rewardTimer = setInterval(function() {
+        seconds--;
+        btn.textContent = "⏳ Wait " + seconds + "s";
+
+        if (seconds <= 0) {
+          clearInterval(rewardTimer);
+          localStorage.setItem("dailyBonusLastClaim", Date.now().toString());
+          balance += dailyBonusAmount;
+          totalEarned += dailyBonusAmount;
+          localStorage.setItem("dogsBalance", balance.toString());
+          localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+          btn.textContent = "✅ Claimed";
+          status.textContent = "50 DOGS added successfully. Come back after 24 hours.";
+          startDailyCooldown(Date.now() + dailyCooldown);
+        }
+      }, 1000);
+    }
+
+    function startDailyCooldown(targetTime) {
+      clearInterval(dailyTimerInterval);
+      var btn = document.getElementById("dailyClaimBtn");
+      var status = document.getElementById("dailyStatusText");
+      if (!btn || !status) return;
+
+      btn.disabled = true;
+
+      dailyTimerInterval = setInterval(function() {
+        let now = Date.now();
+        let distance = targetTime - now;
+
+        if (distance <= 0) {
+          clearInterval(dailyTimerInterval);
+          btn.disabled = false;
+          btn.textContent = "🦴 Claim 50 Dogs";
+          status.textContent = "Bonus available now";
+          return;
+        }
+
+        let hours = Math.floor(distance / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        btn.textContent = "⏳ " + hours + "h " + minutes + "m " + seconds + "s";
+        status.textContent = "Next claim available after cooldown ends.";
+      }, 1000);
+    }
+
+    function unlockSpinByVisit() {
+      if (spinInProgress || spinCooldown) return;
+
+      var unlockBtn = document.getElementById("spinUnlockBtn");
+      var spinBtn = document.getElementById("spinActionBtn");
+      var status = document.getElementById("spinStatusText");
+
+      if (!unlockBtn || !spinBtn || !status) return;
+
+      unlockBtn.disabled = true;
+      let seconds = 10;
+      unlockBtn.textContent = "⏳ Wait " + seconds + "s";
+      status.textContent = "Redirecting... complete the 10 second countdown to unlock spin.";
+      window.open(spinRedirectUrl, "_blank");
+
+      clearInterval(spinUnlockTimer);
+      spinUnlockTimer = setInterval(function() {
+        seconds--;
+        unlockBtn.textContent = "⏳ Wait " + seconds + "s";
+
+        if (seconds <= 0) {
+          clearInterval(spinUnlockTimer);
+          spinUnlockReady = true;
+          unlockBtn.classList.add("hidden-spin-btn");
+          spinBtn.disabled = false;
+          spinBtn.textContent = "🎯 Spin Now";
+          status.textContent = "Spin unlocked. Click the yellow button to spin.";
+        }
+      }, 1000);
+    }
+
+    function startSpin() {
+      if (!spinUnlockReady || spinInProgress || spinCooldown) return;
+
+      var wheel = document.getElementById("spinWheel");
+      var spinBtn = document.getElementById("spinActionBtn");
+      var unlockBtn = document.getElementById("spinUnlockBtn");
+      var status = document.getElementById("spinStatusText");
+
+      if (!wheel || !spinBtn || !unlockBtn || !status) return;
+
+      spinInProgress = true;
+      spinUnlockReady = false;
+      pendingSpinPrize = 0;
+      pendingSpinClaimed = false;
+      spinBtn.disabled = true;
+      unlockBtn.classList.add("hidden-spin-btn");
+      status.textContent = "Spinning...";
+
+      const index = Math.floor(Math.random() * wheelValues.length);
+      const prize = wheelValues[index];
+      const segmentAngle = 360 / wheelValues.length;
+      const targetAngle = (index * segmentAngle) + (segmentAngle / 2);
+      const finalAngle = 360 - targetAngle;
+      const extraSpins = 360 * (5 + Math.floor(Math.random() * 3));
+      const totalRotation = extraSpins + finalAngle;
+
+      wheel.style.transition = "none";
+      const currentRotation = parseFloat(wheel.getAttribute("data-rotation") || "0");
+      wheel.style.transform = "rotate(" + currentRotation + "deg)";
+      wheel.offsetHeight;
+
+      const newRotation = currentRotation + totalRotation;
+      wheel.style.transition = "transform 5s cubic-bezier(0.17, 0.67, 0.14, 1)";
+      wheel.style.transform = "rotate(" + newRotation + "deg)";
+      wheel.setAttribute("data-rotation", newRotation);
+
+      setTimeout(function() {
+        pendingSpinPrize = prize;
+        totalSpinned += 1;
+        localStorage.setItem("dogsTotalSpinned", totalSpinned.toString());
+        renderHomeLiveValues();
+        status.textContent = "Spin finished.";
+        spinInProgress = false;
+        showSpinRewardPopup(prize);
+      }, 5200);
+    }
+
+    function showSpinRewardPopup(prize) {
+      removeSpinPopup();
+
+      var appBox = document.getElementById("miniAppBox");
+      var popup = document.createElement("div");
+      popup.className = "spin-popup-overlay";
+      popup.id = "spinRewardPopup";
+      popup.innerHTML = `
+        <div class="spin-popup-card">
+          <div class="spin-popup-icon">🎉</div>
+          <div class="spin-popup-title">Spin Reward!</div>
+          <div class="spin-popup-reward">+${prize} DOGS</div>
+          <div class="spin-popup-text">Watch an ad to claim your reward! 🐕</div>
+          <button class="spin-popup-claim" onclick="claimSpinReward()">📺 Claim Reward</button>
+          <button class="spin-popup-skip" onclick="skipSpinReward()">Skip</button>
+        </div>
+      `;
+      appBox.appendChild(popup);
+    }
+
+    function removeSpinPopup() {
+      var existing = document.getElementById("spinRewardPopup");
+      if (existing) existing.remove();
+    }
+
+    function claimSpinReward() {
+      if (!pendingSpinPrize || pendingSpinClaimed) return;
+
+      window.open(spinRedirectUrl, "_blank");
+      pendingSpinClaimed = true;
+
+      balance += pendingSpinPrize;
+      totalEarned += pendingSpinPrize;
+
+      localStorage.setItem("dogsBalance", balance.toString());
+      localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+
+      removeSpinPopup();
+      startSpinCooldown();
+      renderHomeLiveValues();
+    }
+
+    function skipSpinReward() {
+      pendingSpinPrize = 0;
+      pendingSpinClaimed = false;
+      removeSpinPopup();
+      startSpinCooldown();
+    }
+
+    function startSpinCooldown() {
+      spinCooldown = true;
+      const cooldownEnd = Date.now() + spinCooldownDuration;
+      localStorage.setItem("spinCooldownEnd", cooldownEnd.toString());
+      runSpinCooldown(cooldownEnd);
+    }
+
+    function restoreSpinCooldownUI() {
+      const cooldownEnd = parseInt(localStorage.getItem("spinCooldownEnd")) || 0;
+      var unlockBtn = document.getElementById("spinUnlockBtn");
+      var spinBtn = document.getElementById("spinActionBtn");
+      var status = document.getElementById("spinStatusText");
+
+      if (cooldownEnd > Date.now()) {
+        spinCooldown = true;
+        if (unlockBtn) unlockBtn.classList.add("hidden-spin-btn");
+        runSpinCooldown(cooldownEnd);
+      } else {
+        spinCooldown = false;
+        localStorage.removeItem("spinCooldownEnd");
+        if (unlockBtn) {
+          unlockBtn.disabled = false;
+          unlockBtn.textContent = "🔒 Watch Ad to Unlock Spin";
+          unlockBtn.classList.remove("hidden-spin-btn");
+        }
+        if (spinBtn) {
+          spinBtn.disabled = true;
+          spinBtn.textContent = "🔒 Locked";
+        }
+        if (status) {
+          status.textContent = "";
+        }
+      }
+    }
+
+    function runSpinCooldown(cooldownEnd) {
+      clearInterval(spinCooldownTimer);
+
+      var unlockBtn = document.getElementById("spinUnlockBtn");
+      var spinBtn = document.getElementById("spinActionBtn");
+      var status = document.getElementById("spinStatusText");
+
+      if (!unlockBtn || !spinBtn || !status) return;
+
+      unlockBtn.classList.add("hidden-spin-btn");
+      spinBtn.disabled = true;
+
+      spinCooldownTimer = setInterval(function() {
+        let now = Date.now();
+        let distance = cooldownEnd - now;
+
+        if (distance <= 0) {
+          clearInterval(spinCooldownTimer);
+          spinCooldown = false;
+          localStorage.removeItem("spinCooldownEnd");
+          unlockBtn.disabled = false;
+          unlockBtn.textContent = "🔒 Watch Ad to Unlock Spin";
+          unlockBtn.classList.remove("hidden-spin-btn");
+          spinBtn.disabled = true;
+          spinBtn.textContent = "🔒 Locked";
+          status.textContent = "Cooldown finished. Watch ad to unlock next spin.";
+          return;
+        }
+
+        let minutes = Math.floor(distance / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        let formatted = minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
+        spinBtn.textContent = "🕒 " + formatted;
+        status.textContent = "Spin cooldown active.";
+      }, 1000);
+    }
+
+    async function backToEarn() {
+      clearInterval(dailyTimerInterval);
+      clearInterval(spinUnlockTimer);
+      clearInterval(spinCooldownTimer);
+      clearInterval(redeemCountdownTimer);
+      clearInterval(watchAdsCountdownTimer);
+      clearInterval(crashCountdownTimer);
+      cancelAnimationFrame(crashAnimationId);
+      stopPropellerSpin();
+      crashGameActive = false;
+      removeSpinPopup();
+      removeCustomPopup();
+      await syncReferralDataFromFirebase();
+      var earnNav = document.querySelectorAll(".nav-item")[1];
+      showTab('earn', earnNav);
+    }
+
+    function backToGames() {
+      openEarnWindow('games');
+    }
+
+    async function submitTaskScreenshot(taskId) {
+  const status = document.getElementById("upload-status-" + taskId);
+  if (!status) return;
+
+  const img = taskScreenshotCache[taskId];
+  if (!img) {
+    status.textContent = "Upload screenshot first.";
+    return;
+  }
+
+  if (!window.submitTaskScreenshotToFirebase) {
+    status.textContent = "Firebase submit function not loaded.";
+    return;
+  }
+
+  status.textContent = "Submitting...";
+
+  try {
+    await window.submitTaskScreenshotToFirebase(taskId, img);
+    status.textContent = "Submitted successfully!";
+    showCustomPopup("Submitted", "Screenshot sent to admin.");
+    delete taskScreenshotCache[taskId];
+  } catch (e) {
+    status.textContent = "Submit failed: " + (e.message || e);
+  }
+}
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      orderBy,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc,
+      addDoc,
+      where,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDbokxd3P2XhR817cfDnho7G4eDgL0KKwM",
+      authDomain: "bearearn-ad.firebaseapp.com",
+      projectId: "bearearn-ad",
+      storageBucket: "bearearn-ad.firebasestorage.app",
+      messagingSenderId: "871597321596",
+      appId: "1:871597321596:web:b8a7c14441ae284e1688f9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.submitTaskScreenshotToFirebase = async function(taskId, screenshotDataUrl) {
+  const user = window.currentTelegramUser || {};
+  const userId = String(user.telegramId || "guest_user");
+
+  await addDoc(collection(db, "tasks"), {
+    userId: userId,
+    type: String(taskId || ""),
+    screenshot: String(screenshotDataUrl || ""),
+    createdAt: new Date().toISOString()
+  });
+};
+
+    window.updateUserBalanceInFirebase = async function(userId, newBalance) {
+  const userRef = doc(db, "users", String(userId));
+  await setDoc(userRef, {
+    balance: Number(newBalance),
+    lastSeen: new Date().toISOString()
+  }, { merge: true });
+};
+
+function handleTaskScreenshotUpload(event, taskId) {
+  var file = event.target.files[0];
+  var status = document.getElementById("upload-status-" + taskId);
+  if (!status) return;
+
+  if (!file) {
+    status.textContent = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    taskScreenshotCache[taskId] = e.target.result; // base64
+    status.textContent = "Screenshot selected. Now click Submit Screenshot.";
+  };
+  reader.onerror = function() {
+    status.textContent = "Could not read the image.";
+  };
+  reader.readAsDataURL(file);
+}
+
+    window.saveTelegramUserToFirebase = async function() {
+      try {
+        const user = window.currentTelegramUser;
+        if (!user || !user.telegramId) return;
+
+        const userRef = doc(db, "users", String(user.telegramId));
+        const userSnap = await getDoc(userRef);
+
+        const userData = {
+          telegramId: String(user.telegramId),
+          username: user.rawUsername || "",
+          name: user.username || user.first_name || "User",
+          photo_url: user.photo_url || "",
+          balance: Number(localStorage.getItem("dogsBalance")) || 160,
+          referrals: Number(localStorage.getItem("dogsTotalReferrals")) || 0,
+          lastSeen: new Date().toISOString()
+        };
+
+        if (!userSnap.exists()) {
+          userData.createdAt = new Date().toISOString();
+        }
+
+        await setDoc(userRef, userData, { merge: true });
+      } catch (error) {
+        console.log("User save error:", error.message);
+      }
+    };
+
+    window.getUserReferralDataFromFirebase = async function() {
+      try {
+        const user = window.currentTelegramUser;
+        if (!user || !user.telegramId) return null;
+
+        const userRef = doc(db, "users", String(user.telegramId));
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) return { referrals: 0 };
+
+        const userData = userSnap.data() || {};
+        const referralCount = Number(userData.referrals || 0);
+        const firebaseBalance = Number(userData.balance || 0);
+
+        const storedReferralCount = Number(localStorage.getItem("dogsTotalReferrals") || 0);
+
+        if (referralCount > storedReferralCount) {
+          const diff = referralCount - storedReferralCount;
+          const reward = diff * referralRewardPerReferral;
+
+          balance += reward;
+          totalEarned += reward;
+          totalReferrals = referralCount;
+
+          localStorage.setItem("dogsBalance", balance.toString());
+          localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+          localStorage.setItem("dogsTotalReferrals", totalReferrals.toString());
+
+          await setDoc(userRef, {
+            balance: balance,
+            totalEarned: totalEarned,
+            lastSeen: new Date().toISOString()
+          }, { merge: true });
+        } else {
+          totalReferrals = referralCount;
+          localStorage.setItem("dogsTotalReferrals", totalReferrals.toString());
+        }
+
+        return {
+          referrals: referralCount,
+          balance: firebaseBalance
+        };
+      } catch (error) {
+        console.log("Referral sync error:", error.message);
+        return null;
+      }
+    };
+
+    window.handleReferralClaimFromFirebase = async function(referralCodeValue) {
+      const user = window.currentTelegramUser;
+      const input = document.getElementById("referClaimInput");
+
+      if (!user || !user.telegramId) {
+        showCustomPopup("Error", "User not found.");
+        return false;
+      }
+
+      const enteredCode = String(referralCodeValue || "").trim();
+      const currentUserId = String(user.telegramId);
+      const testUser = isReferralTestUser();
+
+      if (!enteredCode) {
+        showCustomPopup("Error", "Please enter a referral code.");
+        return false;
+      }
+
+      if (enteredCode === currentUserId) {
+        showCustomPopup("Error", "You cannot use your own referral code.");
+        return false;
+      }
+
+      try {
+        const ownerRef = doc(db, "users", enteredCode);
+        const ownerSnap = await getDoc(ownerRef);
+
+        if (!ownerSnap.exists()) {
+          showCustomPopup("Invalid Code", "Referral code not found.");
+          return false;
+        }
+
+        const claimRef = doc(db, "referral_claims", currentUserId);
+        const claimSnap = await getDoc(claimRef);
+
+        if (claimSnap.exists() && !testUser) {
+          showCustomPopup("Already Claimed", "You have already claimed a referral code.");
+          return false;
+        }
+
+        const currentUserRef = doc(db, "users", currentUserId);
+        const currentUserSnap = await getDoc(currentUserRef);
+
+        const currentUserData = currentUserSnap.exists() ? currentUserSnap.data() : {};
+        const ownerDataBefore = ownerSnap.data() || {};
+
+        const currentUserBalance = Number(currentUserData.balance || 0) + 100;
+        const ownerBalanceBefore = Number(ownerDataBefore.balance || 0);
+        const ownerReferralsBefore = Number(ownerDataBefore.referrals || 0);
+
+        await setDoc(currentUserRef, {
+          telegramId: currentUserId,
+          username: user.rawUsername || "",
+          name: user.username || user.first_name || "User",
+          photo_url: user.photo_url || "",
+          balance: currentUserBalance,
+          referredBy: enteredCode,
+          lastSeen: new Date().toISOString()
+        }, { merge: true });
+
+        await setDoc(ownerRef, {
+          referrals: ownerReferralsBefore + 1,
+          lastSeen: new Date().toISOString()
+        }, { merge: true });
+
+        const ownerSnapAfter = await getDoc(ownerRef);
+        const ownerDataAfter = ownerSnapAfter.exists() ? ownerSnapAfter.data() : {};
+        const ownerBalanceAfter = Number(ownerDataAfter.balance || 0);
+        const ownerReferralsAfter = Number(ownerDataAfter.referrals || 0);
+
+        await setDoc(claimRef, {
+          userId: currentUserId,
+          ownerId: enteredCode,
+          claimedAt: new Date().toISOString(),
+          testMode: testUser,
+          ownerBalanceBefore: ownerBalanceBefore,
+          ownerBalanceAfter: ownerBalanceAfter
+        }, { merge: true });
+
+        balance = currentUserBalance;
+        totalEarned += 100;
+
+        localStorage.setItem("dogsBalance", balance.toString());
+        localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+
+        if (input) input.value = "";
+
+        await syncReferralDataFromFirebase();
+        renderHomeLiveValues();
+
+        openEarnWindow('refer');
+
+        if (testUser) {
+          showCustomPopup(
+            "Test Mode Success",
+            "Claimer got 100 DOGS | Owner referrals before: " +
+            ownerReferralsBefore +
+            " | Owner referrals after: " +
+            ownerReferralsAfter
+          );
+        } else {
+          showCustomPopup("Success", "Referral claimed successfully. You received 100 DOGS.");
+        }
+
+        return true;
+      } catch (error) {
+        showCustomPopup("Error", error.message);
+        return false;
+      }
+    };
+
+    window.handleRedeemCodeFromFirebase = async function(codeValue) {
+      const input = document.getElementById("redeemCodeInput");
+      const status = document.getElementById("redeemStatusText");
+      const user = window.currentTelegramUser;
+
+      if (!user || !user.telegramId) {
+        showCustomPopup("Error", "User not found.");
+        return false;
+      }
+
+      try {
+        const codeRef = doc(db, "redeem_codes", codeValue);
+        const codeSnap = await getDoc(codeRef);
+
+        if (!codeSnap.exists()) {
+          if (status) status.textContent = "";
+          showCustomPopup("Invalid Code", "The code you entered is invalid.");
+          return false;
+        }
+
+        const codeData = codeSnap.data();
+
+        const userClaimRef = doc(db, "redeem_claims", codeValue + "_" + String(user.telegramId));
+        const userClaimSnap = await getDoc(userClaimRef);
+
+        if (userClaimSnap.exists()) {
+          if (status) status.textContent = "";
+          showCustomPopup("Already Claimed", "You already claimed this code.");
+          return false;
+        }
+
+        const userLimit = Number(codeData.userLimit || 0);
+        const totalClaims = Number(codeData.totalClaims || 0);
+        const rewardCoins = Number(codeData.amount || 0);
+
+        if (userLimit > 0 && totalClaims >= userLimit) {
+          if (status) status.textContent = "";
+          showCustomPopup("Code Finished", "This code has already been fully claimed.");
+          return false;
+        }
+
+        balance += rewardCoins;
+        totalEarned += rewardCoins;
+
+        localStorage.setItem("dogsBalance", balance.toString());
+        localStorage.setItem("dogsTotalEarned", totalEarned.toString());
+
+        const userRef = doc(db, "users", String(user.telegramId));
+        await setDoc(userRef, {
+          telegramId: String(user.telegramId),
+          username: user.rawUsername || "",
+          name: user.username || user.first_name || "User",
+          photo_url: user.photo_url || "",
+          balance: balance,
+          totalEarned: totalEarned,
+          referrals: Number(localStorage.getItem("dogsTotalReferrals")) || 0,
+          lastSeen: new Date().toISOString()
+        }, { merge: true });
+
+        await updateDoc(codeRef, {
+          totalClaims: totalClaims + 1
+        });
+
+        await setDoc(userClaimRef, {
+          code: codeValue,
+          userId: String(user.telegramId),
+          name: user.username || user.first_name || "User",
+          claimedAt: new Date().toISOString()
+        });
+
+        let redeemHistory = JSON.parse(localStorage.getItem("redeemHistory") || "[]");
+        redeemHistory.unshift({
+          code: codeValue,
+          reward: "+" + rewardCoins + " DOGS",
+          time: new Date().toLocaleString()
+        });
+        localStorage.setItem("redeemHistory", JSON.stringify(redeemHistory));
+
+        if (input) input.value = "";
+        if (status) status.textContent = rewardCoins + " DOGS claimed successfully!";
+
+        renderHomeLiveValues();
+        openEarnWindow('redeem');
+        showCustomPopup("Success", "The code is correct and the amount is added to your balance.");
+        return true;
+      } catch (error) {
+        if (status) status.textContent = "";
+        showCustomPopup("Error", error.message);
+        return false;
+      }
+    };
+
+    window.openNotificationWindow = async function() {
+      var content = document.getElementById("content-area");
+
+      content.innerHTML = `
+        <div class="fade-in">
+          ${window.renderTopButton()}
+          <div class="sub-page-header">
+            <button class="back-btn" onclick="backToHomeFromNotification()">←</button>
+            <div class="sub-page-title">Notifications</div>
+          </div>
+
+          <div class="notify-list" id="notifyListBox">
+            <div class="notify-item">
+              <div class="notify-item-title">Loading announcements...</div>
+              <div class="notify-item-text">Please wait while we fetch updates.</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const notifyListBox = document.getElementById("notifyListBox");
+
+      try {
+        const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          notifyListBox.innerHTML = `
+            <div class="notify-item">
+              <div class="notify-item-title">No Announcements</div>
+              <div class="notify-item-text">There are no announcements yet.</div>
+              <div class="notify-item-time">Now</div>
+            </div>
+          `;
+          return;
+        }
+
+        let html = "";
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          html += `
+            <div class="notify-item">
+              <div class="notify-item-title">Announcement</div>
+              <div class="notify-item-text">${window.escapeHtml(data.message || "")}</div>
+              <div class="notify-item-time">${window.formatDate(data.createdAt)}</div>
+            </div>
+          `;
+        });
+
+        notifyListBox.innerHTML = html;
+      } catch (error) {
+        notifyListBox.innerHTML = `
+          <div class="notify-item">
+            <div class="notify-item-title">Error</div>
+            <div class="notify-item-text">Could not load announcements.</div>
+            <div class="notify-item-time">${window.escapeHtml(error.message)}</div>
+          </div>
+        `;
+      }
+    };
+
+    window.loadUserWithdrawHistoryFromFirebase = async function () {
+      const box = document.getElementById("withdrawHistoryContent");
+      if (!box) return;
+
+      const user = window.currentTelegramUser;
+      if (!user || !user.telegramId) {
+        box.innerHTML = '<div class="withdraw-history-empty">No withdrawals yet</div>';
+        return;
+      }
+
+      try {
+        const userId = String(user.telegramId);
+        const snapshot = await getDocs(collection(db, "withdrawals"));
+
+        const items = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data() || {};
+          if (String(data.userId || "") === userId) {
+            items.push(data);
+          }
+        });
+
+        if (items.length === 0) {
+          box.innerHTML = '<div class="withdraw-history-empty">No withdrawals yet</div>';
+          return;
+        }
+
+        items.sort((a, b) => {
+          const tA = new Date(a.createdAt || 0).getTime();
+          const tB = new Date(b.createdAt || 0).getTime();
+          return tB - tA;
+        });
+
+        const shortAddress = (addr) => {
+          if (!addr) return "-";
+          const s = String(addr);
+          if (s.length <= 10) return s;
+          return s.slice(0, 4) + "..." + s.slice(-4);
+        };
+
+        const shortTime = (ts) => {
+          if (!ts) return "";
+          const d = new Date(ts);
+          if (isNaN(d.getTime())) return "";
+          return d.toLocaleString(undefined, {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+        };
+
+        let rowsHtml = "";
+        items.forEach((w) => {
+          const amount = Number(w.amount || 0);
+          const address = shortAddress(w.address || "-");
+          const createdAt = shortTime(w.createdAt || "");
+          const t = (w.type || "").toString();
+
+          let statusText = "Pending";
+          let statusClass = "withdraw-history-status-pending";
+          if (t === "approved") {
+            statusText = "Paid";
+            statusClass = "withdraw-history-status-paid";
+          } else if (t === "rejected") {
+            statusText = "Rejected";
+            statusClass = "withdraw-history-status-rejected";
+          }
+
+          rowsHtml += `
+            <div class="withdraw-history-item">
+              <div class="withdraw-history-left">
+                <div class="withdraw-history-amount">${amount} DOGS</div>
+                <div class="withdraw-history-meta">
+                  <span class="withdraw-history-address">${address}</span>
+                  <span class="withdraw-history-dot">•</span>
+                  <span class="withdraw-history-time">${createdAt}</span>
+                </div>
+              </div>
+              <div class="withdraw-history-status-pill ${statusClass}">${statusText}</div>
+            </div>
+          `;
+        });
+
+        box.innerHTML = `<div class="withdraw-history-list">${rowsHtml}</div>`;
+      } catch (error) {
+        box.innerHTML = '<div class="withdraw-history-empty">Failed to load history</div>';
+      }
+    };
+
+    window.createWithdrawalRequestToFirebase = async function (payload) {
+      await addDoc(collection(db, "withdrawals"), {
+        userId: payload.userId,
+        amount: payload.amount,
+        address: payload.address || "",
+        type: "",
+        createdAt: payload.createdAt || new Date().toISOString()
+      });
+    };
+  </script>
 </body>
 </html>
