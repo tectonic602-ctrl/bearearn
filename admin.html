@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Crypto Bot Admin Panel</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #1e293b;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      color: #38bdf8;
+      margin-bottom: 30px;
+    }
+
+    .sidebar button {
+      width: 100%;
+      background: #334155;
+      color: white;
+      border: none;
+      padding: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .sidebar button:hover {
+      background: #475569;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap: 20px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #334155;
+      color: #fff;
+    }
+
+    .btn {
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #0ea5e9;
+    }
+
+    #loginBox {
+      max-width: 400px;
+      margin: 100px auto;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th, table td {
+      border-bottom: 1px solid #334155;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .small-btn {
+      background: #22c55e;
+      color: #000;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .small-btn:hover {
+      background: #16a34a;
+    }
+
+    .danger-btn {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .danger-btn:hover {
+      background: #dc2626;
+    }
+
+    .task-link {
+      color: #38bdf8;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+
+    .task-image-preview {
+      max-width: 120px;
+      max-height: 120px;
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* === Screenshot zoom modal === */
+.img-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.img-zoom-box {
+  max-width: 95vw;
+  max-height: 90vh;
+  background: #0b1220;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
+}
+
+.img-zoom-box img {
+  max-width: 92vw;
+  max-height: 82vh;
+  display: block;
+  border-radius: 10px;
+}
+
+.img-zoom-close {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #ef4444;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+
+<div id="loginBox">
+  <h2>Admin Login</h2>
+  <input type="email" id="email" placeholder="Admin Email">
+  <input type="password" id="password" placeholder="Password">
+  <button class="btn" onclick="login()">Login</button>
+  <p id="loginStatus"></p>
+</div>
+
+<div id="adminPanel" class="container hidden">
+  <div class="sidebar">
+    <h2>Crypto Admin</h2>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('users')">Users</button>
+    <button onclick="showSection('earnings')">Add Earnings</button>
+    <button onclick="showSection('announcement')">Announcement</button>
+    <button onclick="showSection('redeemCodes')">Redeem Codes</button>
+    <button onclick="showSection('referrals')">Referrals</button>
+    <button onclick="showSection('withdrawals')">Withdrawals</button>
+    <button onclick="showSection('tasks')">Tasks</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="main">
+    <div id="dashboard" class="section">
+      <h1>Dashboard</h1>
+      <div class="cards">
+        <div class="card">
+          <h3>Total Users</h3>
+          <p id="totalUsers">0</p>
+        </div>
+        <div class="card">
+          <h3>Total Earnings Given</h3>
+          <p id="totalEarnings">0</p>
+        </div>
+        <div class="card">
+          <h3>Total Announcements</h3>
+          <p id="totalAnnouncements">0</p>
+        </div>
+        <div class="card">
+          <h3>Total Redeem Codes</h3>
+          <p id="totalRedeemCodes">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="users" class="section hidden">
+      <h1>Users</h1>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+          <tbody id="userTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="earnings" class="section hidden">
+      <h1>Add User Earnings</h1>
+      <div class="card">
+        <input type="text" id="earnUserId" placeholder="User ID">
+        <input type="number" id="earnAmount" placeholder="Amount">
+        <button class="btn" onclick="addEarning()">Add Earning</button>
+        <p id="earningStatus"></p>
+      </div>
+
+      <div class="card">
+        <h3>Earnings History</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Amount</th>
+              <th>Date and Time</th>
+            </tr>
+          </thead>
+          <tbody id="earningsHistoryTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="announcement" class="section hidden">
+      <h1>Send Announcement</h1>
+      <div class="card">
+        <textarea id="announcementText" rows="5" placeholder="Write announcement..."></textarea>
+        <button class="btn" onclick="sendAnnouncement()">Send</button>
+        <p id="announceStatus"></p>
+      </div>
+    </div>
+
+    <div id="redeemCodes" class="section hidden">
+      <h1>Redeem Codes</h1>
+
+      <div class="card">
+        <h3>Create Redeem Code</h3>
+        <input type="text" id="redeemCodeText" placeholder="Enter redeem code">
+        <input type="number" id="redeemCodeAmount" placeholder="Reward amount">
+        <input type="number" id="redeemCodeUserLimit" placeholder="No of users">
+        <button class="btn" onclick="createRedeemCode()">Create Code</button>
+        <p id="redeemCreateStatus"></p>
+      </div>
+
+      <div class="card">
+        <h3>All Redeem Codes</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Amount</th>
+              <th>No of Users</th>
+              <th>Created At</th>
+              <th>Total Claims</th>
+            </tr>
+          </thead>
+          <tbody id="redeemCodeTable"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Claimed Users</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Claimed At</th>
+            </tr>
+          </thead>
+          <tbody id="redeemClaimsTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="referrals" class="section hidden">
+      <h1>Referrals</h1>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Number of Referrals</th>
+            </tr>
+          </thead>
+          <tbody id="referralTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="withdrawals" class="section hidden">
+      <h1>Withdrawals</h1>
+
+      <div class="card">
+        <h3>Pending Withdrawals</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Withdrawn Balance</th>
+              <th>Address</th>
+              <th>Type</th>
+              <th>Date and Time</th>
+            </tr>
+          </thead>
+          <tbody id="withdrawalTablePending"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Approved / Rejected Withdrawals</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Withdrawn Balance</th>
+              <th>Address</th>
+              <th>Type</th>
+              <th>Date and Time</th>
+            </tr>
+          </thead>
+          <tbody id="withdrawalTableDone"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tasks" class="section hidden">
+      <h1>Tasks</h1>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Date and Time</th>
+              <th>Screenshot</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody id="taskTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDbokxd3P2XhR817cfDnho7G4eDgL0KKwM",
+    authDomain: "bearearn-ad.firebaseapp.com",
+    projectId: "bearearn-ad",
+    storageBucket: "bearearn-ad.firebasestorage.app",
+    messagingSenderId: "871597321596",
+    appId: "1:871597321596:web:b8a7c14441ae284e1688f9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window.login = async function() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const status = document.getElementById("loginStatus");
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      status.innerText = "Login successful";
+    } catch (error) {
+      status.innerText = error.message;
+    }
+  }
+
+  window.logout = async function() {
+    await signOut(auth);
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("adminPanel").classList.remove("hidden");
+      loadDashboard();
+      loadUsers();
+      loadRedeemCodes();
+      loadRedeemClaims();
+      loadReferrals();
+      loadWithdrawals();
+      loadTasks();
+      loadEarningsHistory();
+    } else {
+      document.getElementById("loginBox").classList.remove("hidden");
+      document.getElementById("adminPanel").classList.add("hidden");
+    }
+  });
+
+  window.showSection = function(sectionId) {
+    const sections = document.querySelectorAll(".section");
+    sections.forEach(sec => sec.classList.add("hidden"));
+    document.getElementById(sectionId).classList.remove("hidden");
+
+    if (sectionId === "tasks") {
+      loadTasks();
+    }
+    if (sectionId === "withdrawals") {
+      loadWithdrawals();
+    }
+    if (sectionId === "referrals") {
+      loadReferrals();
+    }
+    if (sectionId === "users") {
+      loadUsers();
+    }
+    if (sectionId === "dashboard") {
+      loadDashboard();
+    }
+    if (sectionId === "redeemCodes") {
+      loadRedeemCodes();
+      loadRedeemClaims();
+    }
+    if (sectionId === "earnings") {
+      loadEarningsHistory();
+    }
+  }
+
+  async function loadDashboard() {
+    const usersSnapshot = await getDocs(collection(db, "users"));
+    const announcementsSnapshot = await getDocs(collection(db, "announcements"));
+    const redeemCodesSnapshot = await getDocs(collection(db, "redeem_codes"));
+
+    let totalUsers = usersSnapshot.size;
+    let totalEarnings = 0;
+
+    usersSnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      totalEarnings += Number(data.balance || 0);
+    });
+
+    document.getElementById("totalUsers").innerText = totalUsers;
+    document.getElementById("totalEarnings").innerText = totalEarnings;
+    document.getElementById("totalAnnouncements").innerText = announcementsSnapshot.size;
+    document.getElementById("totalRedeemCodes").innerText = redeemCodesSnapshot.size;
+  }
+
+  async function loadUsers() {
+    const userTable = document.getElementById("userTable");
+    userTable.innerHTML = "";
+    const usersSnapshot = await getDocs(collection(db, "users"));
+
+    usersSnapshot.forEach(docSnap => {
+      const user = docSnap.data();
+      userTable.innerHTML += `
+        <tr>
+          <td>${docSnap.id}</td>
+          <td>${user.name || "No Name"}</td>
+          <td>${user.balance || 0}</td>
+        </tr>
+      `;
+    });
+  }
+
+  window.addEarning = async function() {
+    const userId = document.getElementById("earnUserId").value.trim();
+    const amountRaw = document.getElementById("earnAmount").value;
+    const amount = Number(amountRaw);
+    const status = document.getElementById("earningStatus");
+
+    if (!userId) {
+      status.innerText = "Please enter user ID";
+      return;
+    }
+
+    if (!amountRaw || isNaN(amount) || amount <= 0) {
+      status.innerText = "Please enter a valid amount";
+      return;
+    }
+
+    try {
+      const userRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userRef);
+
+      let currentBalance = 0;
+      if (userSnap.exists()) {
+        currentBalance = Number(userSnap.data().balance || 0);
+      }
+
+      const newBalance = currentBalance + amount;
+
+      await setDoc(userRef, {
+        balance: newBalance,
+        lastSeen: new Date().toISOString()
+      }, { merge: true });
+
+      await addDoc(collection(db, "earnings_history"), {
+        userId: userId,
+        amount: amount,
+        createdAt: new Date().toISOString()
+      });
+
+      status.innerText = "Earning added successfully";
+
+      document.getElementById("earnUserId").value = "";
+      document.getElementById("earnAmount").value = "";
+
+      loadDashboard();
+      loadUsers();
+      loadEarningsHistory();
+    } catch (error) {
+      status.innerText = error.message;
+    }
+  }
+
+  async function loadEarningsHistory() {
+    const table = document.getElementById("earningsHistoryTable");
+    if (!table) return;
+
+    table.innerHTML = "";
+
+    const snapshot = await getDocs(collection(db, "earnings_history"));
+
+    const items = [];
+    snapshot.forEach((docSnap) => {
+      items.push(docSnap.data());
+    });
+
+    items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+    if (items.length === 0) {
+      table.innerHTML = `<tr><td colspan="3">No history yet</td></tr>`;
+      return;
+    }
+
+    items.forEach((row) => {
+      table.innerHTML += `
+        <tr>
+          <td>${row.userId || "-"}</td>
+          <td>${row.amount || 0}</td>
+          <td>${row.createdAt || "-"}</td>
+        </tr>
+      `;
+    });
+  }
+
+  window.openImageZoom = function(src) {
+  const existing = document.getElementById("imgZoomOverlay");
+  if (existing) existing.remove();
+
+  const overlay = document.createElement("div");
+  overlay.className = "img-zoom-overlay";
+  overlay.id = "imgZoomOverlay";
+
+  overlay.innerHTML = `
+    <div class="img-zoom-box">
+      <img src="${src}" alt="Screenshot">
+      <button class="img-zoom-close" onclick="closeImageZoom()">Close</button>
+    </div>
+  `;
+
+  overlay.addEventListener("click", function(e) {
+    if (e.target === overlay) closeImageZoom();
+  });
+
+  document.body.appendChild(overlay);
+};
+
+window.closeImageZoom = function() {
+  const overlay = document.getElementById("imgZoomOverlay");
+  if (overlay) overlay.remove();
+};
+
+  window.sendAnnouncement = async function() {
+    const text = document.getElementById("announcementText").value.trim();
+    const status = document.getElementById("announceStatus");
+
+    if (!text) {
+      status.innerText = "Announcement cannot be empty";
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "announcements"), {
+        message: text,
+        createdAt: new Date().toISOString()
+      });
+      status.innerText = "Announcement sent successfully";
+      document.getElementById("announcementText").value = "";
+      loadDashboard();
+    } catch (error) {
+      status.innerText = error.message;
+    }
+  }
+
+  window.createRedeemCode = async function() {
+    const code = document.getElementById("redeemCodeText").value.trim();
+    const amount = Number(document.getElementById("redeemCodeAmount").value);
+    const userLimit = Number(document.getElementById("redeemCodeUserLimit").value);
+    const status = document.getElementById("redeemCreateStatus");
+
+    if (!code || !amount || !userLimit) {
+      status.innerText = "Please enter redeem code, reward amount and no of users";
+      return;
+    }
+
+    try {
+      const codeRef = doc(db, "redeem_codes", code);
+      const codeSnap = await getDoc(codeRef);
+
+      if (codeSnap.exists()) {
+        status.innerText = "This redeem code already exists";
+        return;
+      }
+
+      await setDoc(codeRef, {
+        code: code,
+        amount: amount,
+        userLimit: userLimit,
+        createdAt: new Date().toISOString(),
+        totalClaims: 0
+      });
+
+      status.innerText = "Redeem code created successfully";
+      document.getElementById("redeemCodeText").value = "";
+      document.getElementById("redeemCodeAmount").value = "";
+      document.getElementById("redeemCodeUserLimit").value = "";
+      loadRedeemCodes();
+      loadDashboard();
+    } catch (error) {
+      status.innerText = error.message;
+    }
+  }
+
+  async function loadRedeemCodes() {
+    const redeemCodeTable = document.getElementById("redeemCodeTable");
+    redeemCodeTable.innerHTML = "";
+
+    const redeemCodesSnapshot = await getDocs(collection(db, "redeem_codes"));
+
+    redeemCodesSnapshot.forEach(docSnap => {
+      const codeData = docSnap.data();
+      redeemCodeTable.innerHTML += `
+        <tr>
+          <td>${codeData.code || docSnap.id}</td>
+          <td>${codeData.amount || 0}</td>
+          <td>${codeData.userLimit || 0}</td>
+          <td>${codeData.createdAt || "-"}</td>
+          <td>${codeData.totalClaims || 0}</td>
+        </tr>
+      `;
+    });
+  }
+
+  async function loadRedeemClaims() {
+    const redeemClaimsTable = document.getElementById("redeemClaimsTable");
+    redeemClaimsTable.innerHTML = "";
+
+    const claimsSnapshot = await getDocs(collection(db, "redeem_claims"));
+
+    claimsSnapshot.forEach(docSnap => {
+      const claim = docSnap.data();
+      redeemClaimsTable.innerHTML += `
+        <tr>
+          <td>${claim.code || "-"}</td>
+          <td>${claim.userId || "-"}</td>
+          <td>${claim.name || "No Name"}</td>
+          <td>${claim.claimedAt || "-"}</td>
+        </tr>
+      `;
+    });
+  }
+
+  async function loadReferrals() {
+    const referralTable = document.getElementById("referralTable");
+    referralTable.innerHTML = "";
+
+    const usersSnapshot = await getDocs(collection(db, "users"));
+
+    usersSnapshot.forEach(docSnap => {
+      const user = docSnap.data();
+      const userId = docSnap.id;
+      const name = user.name || "No Name";
+      const code = userId;
+      const referrals = user.referrals || 0;
+
+      referralTable.innerHTML += `
+        <tr>
+          <td>${userId}</td>
+          <td>${name}</td>
+          <td>${code}</td>
+          <td>${referrals}</td>
+        </tr>
+      `;
+    });
+  }
+
+  window.updateWithdrawalType = async function(id, newType) {
+    try {
+      const wRef = doc(db, "withdrawals", id);
+      const wSnap = await getDoc(wRef);
+
+      if (!wSnap.exists()) {
+        alert("Withdrawal request not found");
+        return;
+      }
+
+      const wData = wSnap.data() || {};
+      const userId = String(wData.userId || "");
+      const amount = Number(wData.amount || 0);
+      const oldType = String(wData.type || "");
+
+      if (newType === "rejected" && oldType === "" && userId && amount > 0) {
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+
+        let currentBalance = 0;
+        if (userSnap.exists()) {
+          currentBalance = Number(userSnap.data().balance || 0);
+        }
+
+        await updateDoc(userRef, {
+          balance: currentBalance + amount
+        });
+      }
+
+      await updateDoc(wRef, { type: newType });
+      await loadWithdrawals();
+      await loadUsers();
+      await loadDashboard();
+    } catch (e) {
+      alert("Failed to update withdrawal: " + (e.message || e));
+    }
+  };
+
+  async function loadWithdrawals() {
+    const pendingTable = document.getElementById("withdrawalTablePending");
+    const doneTable = document.getElementById("withdrawalTableDone");
+    pendingTable.innerHTML = "";
+    doneTable.innerHTML = "";
+
+    const withdrawalsSnapshot = await getDocs(collection(db, "withdrawals"));
+
+    withdrawalsSnapshot.forEach(docSnap => {
+      const withdrawal = docSnap.data();
+      const wType = withdrawal.type || "";
+
+      if (!wType) {
+        const typeCellHtml = `
+          <button class="small-btn" onclick="updateWithdrawalType('${docSnap.id}','approved')">Approve</button>
+          <button class="danger-btn" onclick="updateWithdrawalType('${docSnap.id}','rejected')">Reject</button>
+        `;
+
+        pendingTable.innerHTML += `
+          <tr>
+            <td>${withdrawal.userId || "-"}</td>
+            <td>${withdrawal.amount || 0}</td>
+            <td>${withdrawal.address || "-"}</td>
+            <td>${typeCellHtml}</td>
+            <td>${withdrawal.createdAt || "-"}</td>
+          </tr>
+        `;
+      } else {
+        doneTable.innerHTML += `
+          <tr>
+            <td>${withdrawal.userId || "-"}</td>
+            <td>${withdrawal.amount || 0}</td>
+            <td>${withdrawal.address || "-"}</td>
+            <td>${wType}</td>
+            <td>${withdrawal.createdAt || "-"}</td>
+          </tr>
+        `;
+      }
+    });
+
+    if (pendingTable.innerHTML.trim() === "") {
+      pendingTable.innerHTML = `<tr><td colspan="5">No pending withdrawals</td></tr>`;
+    }
+    if (doneTable.innerHTML.trim() === "") {
+      doneTable.innerHTML = `<tr><td colspan="5">No approved/rejected withdrawals</td></tr>`;
+    }
+  }
+
+  async function loadTasks() {
+    const taskTable = document.getElementById("taskTable");
+    taskTable.innerHTML = "";
+
+    const tasksSnapshot = await getDocs(collection(db, "tasks"));
+
+    tasksSnapshot.forEach(docSnap => {
+      const task = docSnap.data();
+      const screenshot = task.screenshot || "-";
+      let screenshotHtml = "-";
+
+      if (screenshot && screenshot !== "-") {
+        if (String(screenshot).startsWith("data:image") || String(screenshot).startsWith("http")) {
+          screenshotHtml = `<img src="${screenshot}" class="task-image-preview" alt="Screenshot" style="cursor:zoom-in;" onclick="openImageZoom('${screenshot}')">`;
+        } else {
+          screenshotHtml = `<span>${screenshot}</span>`;
+        }
+      }
+
+      taskTable.innerHTML += `
+        <tr>
+          <td>${task.userId || "-"}</td>
+          <td>${task.createdAt || "-"}</td>
+          <td>${screenshotHtml}</td>
+          <td>${task.type || "-"}</td>
+        </tr>
+      `;
+    });
+  }
+</script>
+
+</body>
+</html>
